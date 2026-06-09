@@ -1,0 +1,170 @@
+/* css/signup.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: url('../assets/background-pic.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 20px;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.signup-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.signup-card {
+    background: #ffffffa9;  
+    border-radius: 55px;
+    padding: 2rem 2rem 2.5rem;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+
+.signup-card h1 {
+    font-family: 'Mystery Quest', cursive;
+    font-size: 2.2rem;
+    color: #053F1D;  /* text container color */
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-family: 'Oooh Baby', cursive;
+    font-size: 1.3rem;
+    color: #053F1D;
+    opacity: 0.8;
+}
+
+.input-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    color: #053F1D;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.49);
+    opacity: 1;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #053f1d11;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #053f1d4e;
+    color:#053F1D;
+}
+
+.input-group input:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(15, 60, 33, 0.34);
+}
+
+.signup-btn {
+    width: 50%;
+    background: #002911;  
+    color: rgb(228, 228, 228);
+    border: none;
+    padding: 14px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 40px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+    margin-top: 0.5rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.signup-btn:hover {
+    background: #004d1a;
+    transform: scale(1.02);
+}
+
+.signup-btn:active {
+    transform: scale(0.98);
+}
+
+.login-link {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.login-link a {
+    color: #002911;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+    color: #004d1a;
+}
+
+.error-message {
+    color: #d32f2f;
+    background: #ffebee;
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    display: none;
+}
+
+.success-message {
+    color: #2e7d32;
+    background: #e8f5e994;
+    padding: 10px;
+    border-radius: 12px;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    display: none;
+}
+
+/* Mobile responsive */
+@media (max-width: 550px) {
+    .signup-card {
+        padding: 1.5rem;
+    }
+    .signup-card h1 {
+        font-size: 1.8rem;
+    }
+    .subtitle {
+        font-size: 1.1rem;
+    }
+}
