@@ -1,0 +1,102 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Dark overlay to make text readable */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        .loading-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        /* Main heading font: Mystery Quest */
+        .loading-container h1 {
+            font-family: 'Mystery Quest', cursive;
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+        }
+        
+        /* Subheading font: Oooh Baby */
+        .tagline {
+            font-family: 'Oooh Baby', cursive;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            margin: 2rem auto;
+            border: 6px solid rgba(255,255,255,0.3);
+            border-top: 6px solid #ffffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        .loading-text {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+        
+        /* Footer logo small */
+        .footer-logo {
+            position: absolute;
+            bottom: 20px;
+            z-index: 2;
+            opacity: 0.7;
+        }
+        
+        .footer-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .loading-container h1 {
+                font-size: 2.5rem;
+            }
+            .tagline {
+                font-size: 1.5rem;
+            }
+        }
