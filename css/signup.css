@@ -1,4 +1,37 @@
-/* css/signup.css */
+/* ===== LOCAL FONTS ===== */
+@font-face {
+    font-family: 'Mystery Quest';
+    src: url('../assets/font/Mystery_Quest/MysteryQuest-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Oooh Baby';
+    src: url('../assets/font/Oooh_Baby/OoohBaby-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rancho';
+    src: url('../assets/font/Rancho/Rancho-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Rasa';
+    src: url('../assets/font/Rasa/Rasa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -9,7 +42,7 @@ body {
     min-height: 100vh;
     background: url('../assets/background-pic.png') no-repeat center center fixed;
     background-size: cover;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Rasa', Georgia, serif;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,10 +70,12 @@ body::before {
 }
 
 .signup-card {
-    background: #ffffffa9;  
-    border-radius: 55px;
-    padding: 2rem 2rem 2.5rem;
-    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    background: rgba(246, 246, 246, 0.581);
+    border-radius: 100px;
+    padding: 2rem 2.5rem 2.8rem;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    transition: all 0.3s;
     text-align: center;
 }
 
@@ -69,7 +104,7 @@ body::before {
     font-weight: 600;
     margin-bottom: 0.4rem;
     color: #053F1D;
-    font-size: 0.9rem;
+    font-size: 20px;
     letter-spacing: 0.5px;
 }
 
@@ -80,13 +115,15 @@ body::before {
 
 .input-group input {
     width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #053f1d11;
-    border-radius: 12px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: #053f1d4e;
-    color:#053F1D;
+    background: rgba(5, 63, 29, 0.24);
+    border: none;
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-family: 'Rasa', sans-serif;
+    color: #00200D;
+    outline: none;
+    transition: all 0.2s;
 }
 
 .input-group input:focus {
