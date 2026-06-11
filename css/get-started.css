@@ -1,0 +1,262 @@
+/* ===== LOCAL FONTS ===== */
+@font-face {
+    font-family: 'Mystery Quest';
+    src: url('../assets/font/Mystery_Quest/MysteryQuest-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Oooh Baby';
+    src: url('../assets/font/Oooh_Baby/OoohBaby-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Rancho';
+    src: url('../assets/font/Rancho/Rancho-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+@font-face {
+    font-family: 'Rasa';
+    src: url('../assets/font/Rasa/Rasa-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ===== GLOBAL RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #F6F6F6;
+    font-family: 'Rasa', Georgia, serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+}
+
+/* Background image (the blurred abstract) – use assets/background-pic.png but positioned as absolute */
+.consent-bg {
+    position: fixed;
+    top: -73px;
+    left: -397px;
+    width: 2337px;
+    height: 1558px;
+    background: url('../assets/background-pic.png') no-repeat center/cover;
+    z-index: 0;
+    opacity: 0.15;  /* subtle background */
+    pointer-events: none;
+}
+
+.top-heading {
+    
+    text-align: center;
+    padding-top: 3rem;
+    
+}
+
+.top-heading h1 {
+    color: #042b14;
+}
+.top-heading .subhead {
+    color: #02190c;
+}
+
+/* Main container */
+.consent-container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    width: 100%;
+    background: rgba(0, 32, 13, 0.29);
+    border-radius: 100px;
+    padding: 2rem 2.5rem 3rem;
+    backdrop-filter: blur(2px);
+    margin: 2rem auto;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1 {
+    font-family: 'Mystery Quest', cursive;
+    font-size: 50px;
+    text-align: center;
+    color: #053F1D;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.subhead {
+    font-family: 'Oooh Baby', cursive;
+    font-size: 25px;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 2rem;
+}
+
+/* Section styles */
+.section {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    flex-wrap: wrap;
+}
+
+.section-icon {
+    width: 60px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.section-icon img {
+    width: 30px;
+    height: auto;
+}
+
+.section-content {
+    flex: 1;
+}
+
+.section-title {
+    font-family: 'Rasa', serif;
+    font-weight: 400;
+    font-size: 25px;
+    color: #053F1D;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.section-text {
+    font-family: 'Rasa', serif;
+    font-size: 18px;
+    line-height: 1.4;
+    color: #2F4E3C;
+}
+
+/* Study Information (special) */
+.study-info {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.study-info h3 {
+    font-family: 'Rancho', cursive;
+    font-weight: 400;
+    color: #053F1D;
+    font-size: 40px;
+    margin-bottom: 2rem;
+}
+
+/* Checkbox row */
+.consent-checkbox {
+    background: rgba(74, 109, 89, 0.46);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 2rem 0 1.5rem;
+}
+
+.consent-checkbox input {
+    width: 24px;
+    height: 24px;
+    accent-color: #002911;
+    cursor: pointer;
+}
+
+.consent-checkbox label {
+    font-family: 'Rasa', serif;
+    font-size: 20px;
+    color: #000000;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* Button */
+.btn-continue {
+    display: block;
+    width: 251px;
+    margin: 0 auto;
+    background: #002911;
+    border-radius: 100px;
+    padding: 10px 20px;
+    font-family: 'Rancho', cursive;
+    font-size: 27px;
+    line-height: 1;
+    text-align: center;
+    color: #F6F6F6;
+    text-decoration: none;
+    transition: background 0.3s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-continue:hover {
+    background: #004d1a;
+}
+
+.btn-continue:disabled {
+    background: #aaa;
+    cursor: not-allowed;
+}
+
+
+/* Responsive */
+@media (max-width: 850px) {
+    .consent-container {
+        padding: 1.5rem;
+        border-radius: 50px;
+    }
+    h1 {
+        font-size: 48px;
+    }
+    .subhead {
+        font-size: 20px;
+    }
+    .section-title {
+        font-size: 20px;
+    }
+    .section-text {
+        font-size: 16px;
+    }
+    .consent-checkbox label {
+        font-size: 16px;
+    }
+    .btn-continue {
+        width: 200px;
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 600px) {
+    .section {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .section-icon img {
+        width: 32px;
+    }
+    h1 {
+        font-size: 36px;
+    }
+}

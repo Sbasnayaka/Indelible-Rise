@@ -1,4 +1,3 @@
-// js/auth.js
 import { auth, db } from './firebase-config.js';
 import { createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -10,7 +9,6 @@ const successDiv = document.getElementById('success-message');
 signupForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Hide previous messages
     errorDiv.style.display = 'none';
     successDiv.style.display = 'none';
     
@@ -19,7 +17,6 @@ signupForm.addEventListener('submit', async (e) => {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirm-password').value;
     
-    // Validation
     if (!name || !email || !password) {
         errorDiv.textContent = 'Please fill all fields.';
         errorDiv.style.display = 'block';
@@ -39,29 +36,24 @@ signupForm.addEventListener('submit', async (e) => {
     }
     
     try {
-        // Create user in Firebase Auth
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        
-        // Update profile with display name
         await updateProfile(user, { displayName: name });
-        
-        // Create user document in Firestore (users collection)
         await setDoc(doc(db, "users", user.uid), {
             email: email,
             displayName: name,
             createdAt: serverTimestamp(),
             xp: 0,
             streak: 0,
-            lastPlayedDate: null
+            lastPlayedDate: null,
+            consentGiven: false   // track consent
         });
         
-        // Show success and redirect to dashboard after short delay
-        successDiv.textContent = 'Account created successfully! Redirecting...';
+        successDiv.textContent = 'Account created successfully! Redirecting to consent...';
         successDiv.style.display = 'block';
         
         setTimeout(() => {
-            window.location.href = 'dashboard.html';
+            window.location.href = 'get-started.html';
         }, 1500);
         
     } catch (error) {
