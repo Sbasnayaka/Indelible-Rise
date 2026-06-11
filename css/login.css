@@ -37,16 +37,27 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
-    background: #c4c4c463;  /* fallback */
     min-height: 100vh;
+    background: url('../assets/background-pic.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Rasa', Georgia, serif;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Rasa', sans-serif;
     position: relative;
-    padding: 1rem;
+    padding: 20px;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 /* Background image */

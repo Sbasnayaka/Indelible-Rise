@@ -60,7 +60,18 @@ body::before {
     background: rgba(0, 0, 0, 0.5);
     z-index: 1;
 }
-
+/* Background image */
+.login-bg {
+    position: fixed;
+    top: -73px;
+    left: -183px;
+    width: 1909px;
+    height: 1273px;
+    background: url('../assets/background-pic.png') no-repeat center/cover;
+    z-index: 0;
+    opacity: 0.6;
+    pointer-events: none;
+}
 .signup-container {
     position: relative;
     z-index: 2;
