@@ -46,6 +46,7 @@
     line-height: 1.4;
     color: #FFFFFF;
     margin: 0;
+    word-spacing: 0.3rem;
 }
 
 .hero-description-card p .rusty {
@@ -76,6 +77,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    max-height: 250px;
 }
 
 .left-quote-card p {
@@ -86,6 +88,18 @@
     color: #002911;
     margin: 0;
     text-shadow:0 0 10px #f3fff2;
+    word-spacing: 0.1;
+}
+.left-quote-card p .you {
+    font-weight: bold;
+    font-size: 40px;
+    padding: 0 8px;
+    border-radius: 40px;
+    display: inline-block;
+
+    text-decoration: underline;
+    text-decoration-color: #7EFF70;
+    text-decoration-thickness: 4px;
 }
 
 .right-main-card {
@@ -96,6 +110,7 @@
     padding: 2rem;
     display: flex;
     align-items: center;
+    margin-top: 9rem;
 }
 
 .right-main-card p {
@@ -122,7 +137,7 @@
 .detectify-showcase {
     margin-top: 4rem;
     background: rgba(0, 41, 17, 0.2);
-    border-radius: 222px;
+    border-radius: 100px;
     padding: 2rem 2rem 3rem;
 }
 
@@ -159,12 +174,14 @@
     color: #FFFFFF;
     margin: 0;
 }
-
+.detectify-badge h2 .detectifyAI-h {
+    color: #7EFF70;
+}
 .detectify-content-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 2rem;
+    gap: 0rem;
     justify-content: space-between;
 }
 
@@ -179,8 +196,43 @@
     font-family: 'Rancho', cursive;
     font-size: clamp(1.2rem, 3.5vw, 1.8rem);
     line-height: 1.4;
-    color: #053F1D;
+    color: #e5fff0;
     margin: 0;
+    word-spacing: 0.2rem;
+}
+
+.detectify-text-card p .best {
+    text-decoration: underline;
+    text-decoration-color: #7EFF70;
+    text-decoration-thickness: 4px;
+}
+.detectify-text-card p .detectifyAI-p {
+    font-weight: bold;
+    color: #a0ff96;
+    font-size: 2rem;
+}
+.detectify-text-card p .thought {
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-decoration-color: #7EFF70;
+    text-decoration-thickness: 3px;
+}
+.detectify-text-card p .gently {
+    position: relative;
+    display: inline-block;
+}
+.detectify-text-card p .gently::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 8px;
+    background:
+        linear-gradient(-45deg, transparent 4px, #7EFF70 4px, #7EFF70 6px, transparent 6px),
+        linear-gradient(45deg, transparent 4px, #7EFF70 4px, #7EFF70 6px, transparent 6px);
+    background-size: 12px 8px;
+    background-repeat: repeat-x;
 }
 
 .detectify-image {
@@ -189,11 +241,21 @@
     min-width: 180px;
 }
 
+
 .detectify-image img {
-    max-width: 100%;
     height: auto;
-    max-height: 280px;
+    max-height: 350px;
     object-fit: contain;
+    max-width: 130%;
+    border-radius:40%;
+    box-shadow: 0 10px 20px rgba(215, 255, 232, 0.3);
+    margin-left: 0rem;
+   mask: radial-gradient(circle, black 30%, transparent 50%);
+    -webkit-mask: radial-gradient(circle, black 10%, transparent 50%);
+    mix-blend-mode: screen;          
+    filter: drop-shadow(0 0 12px rgba(3, 72, 24, 0.6));
+    transition: all 0.4s ease;
+
 }
 
 /* Responsive adjustments */
