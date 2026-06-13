@@ -39,3 +39,21 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 });
+
+// ---------- SCROLL REVEAL / FADE-IN ANIMATIONS ----------
+// Use Intersection Observer for smooth fade-in when elements come into view
+const fadeElements = document.querySelectorAll('.hero-title-card, .hero-description-card, .left-quote-card, .right-main-card, .detectify-showcase');
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in-visible');
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.2 });
+
+fadeElements.forEach(el => {
+    el.classList.add('fade-in-hidden');
+    observer.observe(el);
+});

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Indelible Rise | About</title>
+    <link rel="icon" type="image/png" href="assets/fav-icon.png">
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main shared styles (navbar, footer, fonts) -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- Page‑specific styles -->
+    <link rel="stylesheet" href="css/about.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="assets/nav-logo.png" alt="Indelible Rise">
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+        </div>
+        <div class="nav-second">
+            <a href="detectify-info.html" class="detectifyAI-btn">
+                <span class="status-dot"></span> DetectifyAI
+            </a>
+            <button id="logout-btn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- ========== MAIN CONTENT (exactly as Figma) ========== -->
+    <main class="about-container">
+        <!-- Hero section: title + stat card -->
+        <div class="hero-about">
+            <div class="hero-title-card">
+                <h1>Why Indelible Rise?</h1>
+            </div>
+            <div class="hero-description-card">
+                <p>We all use generative AI. It’s fast, it’s helpful and it’s here to stay. But recentlyyyyyy, 79% of young people admitted that relying on AI too much makes their own thinking skills feel a bit "<span class="rusty">rusty</span>"!!!</p>
+            </div>
+        </div>
+
+        <!-- Two‑column layout: left quote card + right main explanation -->
+        <div class="about-two-columns">
+            <div class="left-quote-card">
+                <p>When was the last time you solved a tough problem without instantly opening a new tab to ask for the answer?</p>
+            </div>
+            <div class="right-main-card">
+                <p><span class="indelible-rise">Indelible Rise</span> is a creative arcade built to fix that. We designed short, engaging micro games to give your brain a proper workout. Whether you are testing your memory, spotting fake news, or writing creatively, this is your space to grow.</p>
+            </div>
+        </div>
+
+        <!-- Powered by DetectifyAI section (with illustration) -->
+        <div class="detectify-showcase">
+            <div class="detectify-showcase-inner">
+                <div class="detectify-heading-block">
+                    <div class="detectify-badge">
+                        <span class="badge-dot"></span>
+                        <h2>Powered by DetectifyAI</h2>
+                    </div>
+                </div>
+                <div class="detectify-content-row">
+                    <div class="detectify-text-card">
+                        <p>To make sure you get the best workout, our background DetectifyAI engine gently monitors your gameplay. It doesn't read your answers like an exam marker. It just makes sure you aren't copy pasting from other apps. Your original thoughts onlyyyyy !</p>
+                    </div>
+                    <div class="detectify-image">
+                        <img src="assets/about-img.png" alt="DetectifyAI isometric logo">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========== FOOTER (as defined in main.css) ========== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/footer-logo.png" alt="Indelible Rise">
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Quick links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Share your Thoughts</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:sandunisandunibasnayaka01@gmail.com">sandunisandunibasnayaka01@gmail.com</a></li>
+                        <li><i class="fas fa-phone-alt"></i> +94740665317</li>
+                        <li class="social-links">
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="far fa-envelope"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Indelible Rise | Design by Sanduni Kaveesha Basnayaka</p>
+            <p>Built for real human thinking.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase + custom JS -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
