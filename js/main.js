@@ -39,3 +39,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 });
+
+// ===== SCROLL ANIMATION FOR DETECTIFY SECTION =====
+function animateOnScroll() {
+    const section = document.querySelector('.detectify-section');
+    if (!section) return;
+    
+    const rect = section.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight - 100 && rect.bottom > 100;
+    
+    if (isVisible && !section.classList.contains('animated')) {
+        section.classList.add('animated');
+    }
+}
+
+// Run on scroll and on load
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
