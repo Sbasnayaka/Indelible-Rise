@@ -1,4 +1,5 @@
-// ===== MOBILE MENU TOGGLE - WORKING VERSION =====
+
+// ===== MOBILE MENU TOGGLE =====
 document.addEventListener('DOMContentLoaded', function() {
     var menuBtn = document.querySelector('.mobile-menu-btn');
     var navLinks = document.querySelector('.nav-links');
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 
-// ---------- SCROLL REVEAL / FADE-IN ANIMATIONS ----------
+
 // Use Intersection Observer for smooth fade-in when elements come into view
 const fadeElements = document.querySelectorAll('.hero-title-card, .hero-description-card, .left-quote-card, .right-main-card, .detectify-showcase');
 
