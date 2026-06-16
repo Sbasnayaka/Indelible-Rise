@@ -7,7 +7,7 @@
     <link rel="icon" type="image/png" href="../assets/fav-icon.png">
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Main shared styles (navbar, footer, fonts) -->
+    <!-- Main shared styles -->
     <link rel="stylesheet" href="../css/main.css">
     <!-- Game specific styles -->
     <link rel="stylesheet" href="../css/claim-detective.css">
@@ -18,16 +18,16 @@
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-logo">
-            <img src="assets/nav-logo.png" alt="Indelible Rise">
+            <img src="../assets/nav-logo.png" alt="Indelible Rise">
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Home</a>
-            <a href="about.html" class="nav-link active">About</a>
-            <a href="dashboard.html" class="nav-link">Dashboard</a>
-            <a href="profile.html" class="nav-link">Profile</a>
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="../about.html" class="nav-link">About</a>
+            <a href="../dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="../profile.html" class="nav-link">Profile</a>
         </div>
         <div class="nav-second">
-            <a href="detectify-info.html" class="detectifyAI-btn">
+            <a href="../detectify-info.html" class="detectifyAI-btn">
                 <span class="status-dot"></span> DetectifyAI
             </a>
             <button id="logout-btn" class="logout-btn">
@@ -43,10 +43,17 @@
     <main class="game-wrapper">
         <!-- LEFT COLUMN: Main Game -->
         <div class="game-main">
-            <!-- Progress: Question number -->
+            <!-- Progress: Question number + Back button -->
             <div class="question-progress" id="questionProgress">
-                <span>Question 1 of 5</span>
-                <span class="xp-display">XP: <span id="xpDisplay">0</span></span>
+                <div class="progress-left">
+                    <span id="levelDisplay">Level 1 of 55</span>
+                </div>
+                <div class="progress-right">
+                    <span class="xp-display">XP: <span id="xpDisplay">0</span></span>
+                    <button id="backToDashboardBtn" class="back-btn" title="Back to Dashboard">
+                        <i class="fas fa-arrow-left"></i> Exit
+                    </button>
+                </div>
             </div>
 
             <h1 class="game-title">Claim Detective</h1>
@@ -114,7 +121,7 @@
                 </div>
                 <div class="session-row">
                     <span>Cognitive Load</span>
-                    <span class="status-optimal">Optimal</span>
+                    <span class="status-optimal" id="cognitiveStatus">Optimal</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="cognitiveLoadFill" style="width: 75%;"></div>
@@ -130,27 +137,27 @@
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <img src="assets/footer-logo.png" alt="Indelible Rise">
+                <img src="../assets/footer-logo.png" alt="Indelible Rise">
             </div>
             <div class="footer-links">
                 <div class="footer-col">
                     <h4>Quick links</h4>
                     <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li><a href="profile.html">Profile</a></li>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="../profile.html">Profile</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Share your Thoughts</h4>  
+                    <h4>Share your Thoughts</h4>
                     <ul class="contact-list">
                         <li>
-                            <i class="fas fa-envelope"></i> 
+                            <i class="fas fa-envelope"></i>
                             <a href="mailto:sandunibasnayaka01@gmail.com">sandunibasnayaka01@gmail.com</a>
                         </li>
                         <li>
-                            <i class="fab fa-whatsapp"></i> 
+                            <i class="fab fa-whatsapp"></i>
                             <a href="https://wa.me/94740665317" target="_blank" rel="noopener noreferrer">+94740665317</a>
                         </li>
                     </ul>
@@ -167,7 +174,6 @@
     <script type="module" src="../js/firebase-config.js"></script>
     <script src="../js/detectify.js"></script>
     <script type="module" src="../js/claim-detective.js"></script>
-    <!-- main.js handles logout and mobile menu (loaded after) -->
     <script type="module" src="../js/main.js"></script>
 </body>
 </html>

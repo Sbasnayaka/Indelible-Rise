@@ -86,3 +86,23 @@ function runDetectifyCheck(finalText) {
         duration: Math.round(timeTakenSeconds)
     };
 }
+
+function getRealtimeMetrics(currentText) {
+    const timeElapsed = (performance.now() - startTime) / 1000;
+    const wordCount = (currentText.match(/\b\w+\b/g) || []).length;
+    let wpm = timeElapsed > 0 ? (wordCount / timeElapsed) * 60 : 0;
+    if (wpm > 999) wpm = 999;
+    
+    const ttrData = calculateTTR(currentText);
+    let pasteRatio = 0;
+    if (currentText.length > 0) {
+        pasteRatio = pastedCharacterCount / currentText.length;
+    }
+    
+    return {
+        wpm: Math.round(wpm),
+        pasteRatio: Math.round(pasteRatio * 100),
+        ttr: Math.round(ttrData.ttr * 100) / 100,
+        wordCount: ttrData.wordCount
+    };
+}
