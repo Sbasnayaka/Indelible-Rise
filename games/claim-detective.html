@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Claim Detective | Indelible Rise</title>
+    <link rel="icon" type="image/png" href="../assets/fav-icon.png">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main shared styles (navbar, footer, fonts) -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Game specific styles -->
+    <link rel="stylesheet" href="../css/claim-detective.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="assets/nav-logo.png" alt="Indelible Rise">
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link active">About</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+        </div>
+        <div class="nav-second">
+            <a href="detectify-info.html" class="detectifyAI-btn">
+                <span class="status-dot"></span> DetectifyAI
+            </a>
+            <button id="logout-btn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- ========== GAME CONTENT ========== -->
+    <main class="game-wrapper">
+        <!-- LEFT COLUMN: Main Game -->
+        <div class="game-main">
+            <!-- Progress: Question number -->
+            <div class="question-progress" id="questionProgress">
+                <span>Question 1 of 5</span>
+                <span class="xp-display">XP: <span id="xpDisplay">0</span></span>
+            </div>
+
+            <h1 class="game-title">Claim Detective</h1>
+            <p class="game-subtitle">Spot the weak evidence in this claim and explain your reasoning organically.</p>
+
+            <!-- Question Card -->
+            <div class="claim-card" id="claimCard">
+                <!-- Dynamic content inserted by JS -->
+            </div>
+
+            <!-- Evidence Selection -->
+            <div class="evidence-group" id="evidenceGroup">
+                <!-- Dynamic radio buttons inserted by JS -->
+            </div>
+
+            <!-- Your Human Analysis -->
+            <div class="analysis-area">
+                <h3><i class="fas fa-pen-fancy"></i> Your Human Analysis</h3>
+                <textarea id="user-answer" rows="6" placeholder="Break down why this claim might be flawed. Use your own words..."></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button id="submit-btn" class="play-btn">Play Now</button>
+
+            <!-- Feedback Message (hidden initially) -->
+            <div id="feedbackMessage" class="feedback-message"></div>
+        </div>
+
+        <!-- RIGHT COLUMN: Sidebar -->
+        <div class="game-sidebar">
+            <!-- DetectifyAI Status Box -->
+            <div class="detectify-box">
+                <div class="detectify-header">
+                    <span class="dot-big"></span>
+                    <h3>DETECTIFYAI ACTIVE</h3>
+                </div>
+                <div class="detectify-stats" id="detectifyStats">
+                    <div class="stat-row">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>WPM: <span id="wpmDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-paste"></i>
+                        <span>Paste Ratio: <span id="pasteDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-list-ul"></i>
+                        <span>TTR (Diversity): <span id="ttrDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row verdict" id="verdictRow">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Verdict: <span id="verdictDisplay">Waiting...</span></span>
+                    </div>
+                </div>
+                <div class="detectify-footer">
+                    <i class="fas fa-circle" style="color: #39FF14; font-size: 10px;"></i>
+                    <span>Analyzing keystroke dynamics and linguistic patterns for organic thought...</span>
+                </div>
+            </div>
+
+            <!-- Session Vitality -->
+            <div class="session-box">
+                <div class="session-header">
+                    <h4>SESSION VITALITY</h4>
+                </div>
+                <div class="session-row">
+                    <span>Cognitive Load</span>
+                    <span class="status-optimal">Optimal</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cognitiveLoadFill" style="width: 75%;"></div>
+                </div>
+                <div class="session-tag">
+                    <i class="fas fa-brain"></i> LOGIC & REASONING
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/footer-logo.png" alt="Indelible Rise">
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Quick links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Share your Thoughts</h4>  
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fas fa-envelope"></i> 
+                            <a href="mailto:sandunibasnayaka01@gmail.com">sandunibasnayaka01@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-whatsapp"></i> 
+                            <a href="https://wa.me/94740665317" target="_blank" rel="noopener noreferrer">+94740665317</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Indelible Rise | Design by Sanduni Kaveesha Basnayaka</p>
+            <p>Built for real human thinking.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase + Game Scripts -->
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script src="../js/detectify.js"></script>
+    <script type="module" src="../js/claim-detective.js"></script>
+    <!-- main.js handles logout and mobile menu (loaded after) -->
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>
