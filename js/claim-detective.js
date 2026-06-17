@@ -778,7 +778,7 @@ submitBtn.addEventListener('click', async () => {
 
     // 6. Check if evidence choice is correct
     const isCorrect = (selectedIndex === q.correctIndex);
-    const xpEarned = isCorrect ? 50 : 10;
+    const xpEarned = isCorrect ? 2 : 0;
 
     // 7. Save to Firebase (only if human)
     try {
