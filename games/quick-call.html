@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Quick Call | Indelible Rise</title>
+    <link rel="icon" type="image/png" href="../assets/fav-icon.png">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main shared styles -->
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Game specific styles -->
+    <link rel="stylesheet" href="../css/quick-call.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="../assets/nav-logo.png" alt="Indelible Rise">
+        </div>
+        <div class="nav-links">
+            <a href="../index.html" class="nav-link">Home</a>
+            <a href="../about.html" class="nav-link">About</a>
+            <a href="../dashboard.html" class="nav-link active">Dashboard</a>
+            <a href="../profile.html" class="nav-link">Profile</a>
+        </div>
+        <div class="nav-second">
+            <a href="../detectify-info.html" class="detectifyAI-btn">
+                <span class="status-dot"></span> DetectifyAI
+            </a>
+            <button id="logout-btn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav>
+
+    <!-- ========== GAME CONTENT ========== -->
+    <main class="game-wrapper">
+        <!-- LEFT COLUMN: Main Game -->
+        <div class="game-main">
+            <!-- Progress -->
+            <div class="question-progress" id="questionProgress">
+                <div class="progress-left">
+                    <span id="levelDisplay">Level 1 of 55</span>
+                </div>
+                <div class="progress-right">
+                    <span class="xp-display">XP: <span id="xpDisplay">0</span></span>
+                    <button id="backToDashboardBtn" class="back-btn" title="Back to Dashboard">
+                        <i class="fas fa-arrow-left"></i> Exit
+                    </button>
+                </div>
+            </div>
+
+            <h1 class="game-title">Quick Call</h1>
+            <p class="game-subtitle">Develop rapid decision-making skills under time pressure with constrained choices.</p>
+
+            <!-- ===== PHASE 1: TIMER + CHOICE ===== -->
+            <div id="choicePhase" class="choice-phase">
+                <div class="timer-display" id="timerDisplay">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span id="timerNumber">10</span>
+                    <span class="timer-unit">seconds</span>
+                </div>
+
+                <div class="scenario-card">
+                    <div class="scenario-header">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Quick Decision</h3>
+                    </div>
+                    <div class="scenario-text" id="scenarioText">
+                        Loading scenario...
+                    </div>
+                    <p class="scenario-instruction">Trust your gut! You have <strong>10 seconds</strong> to decide.</p>
+                </div>
+
+                <div class="choice-buttons" id="choiceButtons">
+                    <button id="btnOptionA" class="choice-btn option-a">
+                        <i class="fas fa-check-circle"></i> Option A
+                    </button>
+                    <button id="btnOptionB" class="choice-btn option-b">
+                        <i class="fas fa-check-circle"></i> Option B
+                    </button>
+                </div>
+            </div>
+
+            <!-- ===== PHASE 2: EXPLANATION (hidden initially) ===== -->
+            <div id="explanationPhase" class="explanation-phase" style="display: none;">
+                <div class="explanation-header">
+                    <i class="fas fa-pen-fancy"></i>
+                    <h3>Your Decision</h3>
+                    <span class="decision-tag" id="decisionTag">You chose: --</span>
+                </div>
+                <p class="explanation-prompt" id="explanationPrompt">Why did you make that choice? Explain your gut instinct.</p>
+
+                <form id="quickForm">
+                    <div class="explanation-group">
+                        <label for="userReason"><i class="fas fa-comment"></i> Your Reasoning</label>
+                        <textarea id="userReason" rows="4" placeholder="Write a short explanation of why you chose that option..."></textarea>
+                    </div>
+                    <button type="submit" id="submit-btn" class="play-btn">Submit Reasoning</button>
+                </form>
+            </div>
+
+            <!-- Feedback Message -->
+            <div id="feedbackMessage" class="feedback-message"></div>
+        </div>
+
+        <!-- RIGHT COLUMN: Sidebar -->
+        <div class="game-sidebar">
+            <!-- DetectifyAI Status Box -->
+            <div class="detectify-box">
+                <div class="detectify-header">
+                    <span class="dot-big"></span>
+                    <h3>DETECTIFYAI ACTIVE</h3>
+                </div>
+                <div class="detectify-stats" id="detectifyStats">
+                    <div class="stat-row">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>WPM: <span id="wpmDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-paste"></i>
+                        <span>Paste Ratio: <span id="pasteDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row">
+                        <i class="fas fa-list-ul"></i>
+                        <span>TTR (Diversity): <span id="ttrDisplay">--</span></span>
+                    </div>
+                    <div class="stat-row verdict" id="verdictRow">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Verdict: <span id="verdictDisplay">Waiting...</span></span>
+                    </div>
+                </div>
+                <div class="detectify-footer">
+                    <i class="fas fa-circle" style="color: #39FF14; font-size: 10px;"></i>
+                    <span>Analyzing keystroke dynamics and linguistic patterns for organic thought...</span>
+                </div>
+            </div>
+
+            <!-- How to Play Card -->
+            <div class="how-to-play-box">
+                <div class="how-to-play-header">
+                    <i class="fas fa-gamepad" style="color: #39FF14; font-size: 1.5rem;"></i>
+                    <h3>How to Play</h3>
+                </div>
+
+                <p class="how-to-play-intro">
+                    <strong>Quick Call</strong> – sharpen your intuition! ⚡🧠
+                </p>
+
+                <div class="how-to-play-mission">
+                    <i class="fas fa-bullseye"></i>
+                    <span><strong>Your mission:</strong> Make a fast decision in 10 seconds, then explain your gut instinct.</span>
+                </div>
+
+                <div class="how-to-play-steps">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <span class="step-text">Read the scenario quickly</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <span class="step-text">Click <strong>Option A</strong> or <strong>B</strong> within 10 seconds ⏱</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <span class="step-text">Explain your choice in your own words ✍️</span>
+                    </div>
+                </div>
+
+                <div class="how-to-play-why">
+                    <div class="why-item">
+                        <i class="fas fa-gauge-high"></i>
+                        <span>Speed &amp; confidence</span>
+                    </div>
+                    <div class="why-item">
+                        <i class="fas fa-brain"></i>
+                        <span>Intuition training</span>
+                    </div>
+                    <div class="why-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>Calibration</span>
+                    </div>
+                </div>
+
+                <div class="how-to-play-footer">
+                    <i class="fas fa-robot"></i>
+                    <span>DetectifyAI keeps it honest – no copy‑paste! 🤖</span>
+                </div>
+            </div>
+
+            <!-- Session Vitality -->
+            <div class="session-box">
+                <div class="session-header">
+                    <h4>SESSION VITALITY</h4>
+                </div>
+                <div class="session-row">
+                    <span>Cognitive Load</span>
+                    <span class="status-optimal" id="cognitiveStatus">Optimal</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cognitiveLoadFill" style="width: 75%;"></div>
+                </div>
+                <div class="session-tag">
+                    <i class="fas fa-brain"></i> MEMORY & FAST THINKING
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="../assets/footer-logo.png" alt="Indelible Rise">
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Quick links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../about.html">About</a></li>
+                        <li><a href="../dashboard.html">Dashboard</a></li>
+                        <li><a href="../profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Share your Thoughts</h4>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:sandunibasnayaka01@gmail.com">sandunibasnayaka01@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-whatsapp"></i>
+                            <a href="https://wa.me/94740665317" target="_blank" rel="noopener noreferrer">+94740665317</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Indelible Rise | Design by Sanduni Kaveesha Basnayaka</p>
+            <p>Built for real human thinking.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase + Game Scripts -->
+    <script type="module" src="../js/firebase-config.js"></script>
+    <script src="../js/detectify.js"></script>
+    <script type="module" src="../js/quick-call.js"></script>
+    <script type="module" src="../js/main.js"></script>
+</body>
+</html>
