@@ -8,9 +8,9 @@
 
 ## ✨ Overview
 
-**Indelible Rise** is an academic research project built to tackle a growing problem: **cognitive offloading** caused by over-reliance on generative AI tools like ChatGPT.
+**Indelible Rise** is an academic research project built to tackle a growing problem: **cognitive offloading** caused by over reliance on generative AI tools like ChatGPT.
 
-The platform offers **6 micro-games** that train core cognitive skills — creativity, logical reasoning, memory, and fast thinking — while a lightweight engine called **DetectifyAI** runs in the background to gently discourage copy-pasting and AI-generated responses.
+The platform offers **6 micro-games** that train core cognitive skills - creativity, logical reasoning, memory, and fast thinking - while a lightweight engine called **DetectifyAI** runs in the background to gently discourage copy pasting and AI generated responses.
 
 > 🎯 **Goal:** Help you stay sharp. No AI shortcuts. Just you.
 
@@ -28,7 +28,7 @@ The platform offers **6 micro-games** that train core cognitive skills — creat
 | ⚡ **Quick Call** | Fast Thinking | Make a snap decision under 10 seconds, then explain your gut instinct |
 
 ---
-## 🔍 DetectifyAI – The Humanity Triad
+## 🔍 DetectifyAI - The Humanity Triad
 
 DetectifyAI ensures you're using your **real brain power**, not a shortcut.
 
@@ -146,7 +146,7 @@ indelible-rise/
 
 ## 📝 License
 
-This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
 ---
 
