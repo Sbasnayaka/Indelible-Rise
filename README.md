@@ -142,3 +142,43 @@ indelible-rise/
     ├── icon/                  # Icons
     └── *.png                  # Logos + backgrounds
 ```
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License** – see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👩‍💻 Author
+
+**Sanduni Kaveesha Basnayaka**  
+Registration: 2541893  
+BSc (Hons) Computer Science  
+University of Bedfordshire  
+
+**Supervisor:** Dr. Yasas Jayaweera
+
+---
+
+## 🙏 Acknowledgements
+
+- All participants who took part in the research
+- The open‑source community (Font Awesome, Chart.js, Google Fonts)
+- University of Bedfordshire for academic support
+
+---
+
+## 📬 Contact
+
+Have questions or feedback? Reach out!
+
+📧 sandunisandunibasnayaka01@gmail.com  
+
+---
+
+## ⭐ Built for real human thinking.
+
+> *"Genuine effort builds stronger neural pathways. Shortcuts dilute the growth."*
+
+---
