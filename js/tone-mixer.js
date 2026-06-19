@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- 55 BASE SENTENCES ----
 const baseSentences = [
@@ -65,6 +66,7 @@ const baseSentences = [
 // ---- STATE ----
 let currentLevelIndex = 0;
 let userXP = 0;
+let userStreak = 0;
 
 // ---- DOM ELEMENTS ----
 const sentenceDisplay = document.getElementById('baseSentenceDisplay');
@@ -274,6 +276,8 @@ submitBtn.addEventListener('click', async () => {
             toneMixerLevel: currentLevelIndex + 1
         });
 
+        userStreak = await updateUserStreak(user.uid, db);
+
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
 
@@ -288,7 +292,7 @@ submitBtn.addEventListener('click', async () => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Fantastic range! +${xpEarned} XP. Your writing versatility is growing! 🚀`;
+    feedbackDiv.innerHTML = `✅ Fantastic range! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your writing versatility is growing! 🚀`;
 
     // 8. Advance to next level after delay
     submitBtn.disabled = true;
