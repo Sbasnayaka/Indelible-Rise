@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- 55 STORIES WITH 3 QUESTIONS EACH ----
 const memoryStories = [
@@ -452,6 +453,7 @@ let currentLevelIndex = 0;
 let userXP = 0;
 let quizStarted = false;
 let currentStory = null;
+let userStreak = 0;
 
 // ---- DOM ELEMENTS ----
 const storyPhase = document.getElementById('storyPhase');
@@ -685,6 +687,8 @@ form.addEventListener('submit', async (e) => {
             memoryMarketLevel: currentLevelIndex + 1
         });
 
+        userStreak = await updateUserStreak(user.uid, db);
+
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
 
@@ -699,7 +703,7 @@ form.addEventListener('submit', async (e) => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Great recall! +${xpEarned} XP. Your memory is getting sharper! 🧠`;
+    feedbackDiv.innerHTML = `✅ Great recall! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your memory is getting sharper! 🧠`;
 
     // 7. Advance to next level after delay
     submitBtn.disabled = true;
@@ -730,11 +734,12 @@ onAuthStateChanged(auth, async (user) => {
             const data = snap.data();
             userXP = data.xp || 0;
             xpDisplaySpan.textContent = userXP;
+            userStreak = data.streak || 0;
             const savedLevel = data.memoryMarketLevel || 0;
             if (savedLevel >= memoryStories.length) {
                 feedbackDiv.className = 'feedback-message success';
                 feedbackDiv.style.display = 'block';
-                feedbackDiv.innerHTML = '🏆 You have mastered all 55 levels! Amazing work!';
+                feedbackDiv.innerHTML = `✅ Great recall! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your memory is getting sharper! 🧠`;
                 submitBtn.disabled = true;
                 submitBtn.textContent = '🌟 Master';
                 return;
