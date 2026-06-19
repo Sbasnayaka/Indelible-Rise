@@ -15,28 +15,29 @@
 <body>
     <div class="bg-overlay"></div>
 
-    <!-- ========== NAVBAR (shared) ========== -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-logo">
             <img src="assets/nav-logo.png" alt="Indelible Rise">
         </div>
-        <div class="mobile-menu-btn" id="mobileMenuBtn">
-            <i class="fas fa-bars"></i>
-        </div>
-        <div class="nav-links" id="navLinks">
+        <div class="nav-links">
             <a href="index.html" class="nav-link">Home</a>
             <a href="about.html" class="nav-link">About</a>
             <a href="dashboard.html" class="nav-link">Dashboard</a>
             <a href="profile.html" class="nav-link">Profile</a>
-            <div class="detectify-link active-nav">
-                <span class="status-dot"></span>
-                <a href="detectifyai.html" class="detectifyAI-btn active">DetectifyAI</a>
-            </div>
         </div>
-        <button class="logout-btn" id="logoutBtn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-    </nav>
+        <div class="nav-second">
+            <a href="detectifyai.html" class="detectifyAI-btn active">
+                <span class="status-dot"></span> DetectifyAI
+            </a>
+            <button id="logout-btn" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        <div class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </div>
+    </nav> 
 
     <!-- ========== DETECTIFYAI CONTENT ========== -->
     <main class="detectifyai-container">
@@ -153,7 +154,7 @@
 
     </main>
 
-    <!-- ========== FOOTER (shared) ========== -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-logo">
@@ -170,13 +171,15 @@
                     </ul>
                 </div>
                 <div class="footer-col">
-                    <h4>Share your Thoughts</h4>
+                    <h4>Share your Thoughts</h4>  
                     <ul class="contact-list">
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:sandunisandunibasnayaka01@gmail.com">sandunisandunibasnayaka01@gmail.com</a></li>
-                        <li><i class="fas fa-phone-alt"></i> +94740665317</li>
-                        <li class="social-links">
-                            <a href="#"><i class="fab fa-whatsapp"></i></a>
-                            <a href="#"><i class="far fa-envelope"></i></a>
+                        <li>
+                            <i class="fas fa-envelope"></i> 
+                            <a href="mailto:sandunibasnayaka01@gmail.com">sandunibasnayaka01@gmail.com</a>
+                        </li>
+                        <li>
+                            <i class="fab fa-whatsapp"></i> 
+                            <a href="https://wa.me/94740665317" target="_blank" rel="noopener noreferrer">+94740665317</a>
                         </li>
                     </ul>
                 </div>
