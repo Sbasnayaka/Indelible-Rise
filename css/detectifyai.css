@@ -1,0 +1,305 @@
+/* css/detectifyai.css */
+
+.detectifyai-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 2rem 4rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===== HERO SECTION ===== */
+.hero-section {
+    margin-bottom: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-card {
+    background: linear-gradient(180deg, rgba(64, 77, 55, 0.4) 0%, rgba(3, 43, 19, 0.6) 100%);
+    backdrop-filter: blur(6px);
+    border-radius: 80px;
+    padding: 2.5rem 3rem 3rem;
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.hero-card h1 {
+    font-family: 'Mystery Quest', cursive;
+    font-size: clamp(2.5rem, 6vw, 3.5rem);
+    color: #1B7541;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+.hero-sub {
+    font-family: 'Rasa', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    color: rgba(246, 246, 246, 0.76);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.4;
+}
+
+/* ===== METRICS SECTION ===== */
+.metrics-section {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.metric-card {
+    flex: 1;
+    min-width: 280px;
+    max-width: 400px;
+    background: linear-gradient(180deg, rgba(64, 77, 55, 0.4) 0%, rgba(3, 43, 19, 0.6) 100%);
+    backdrop-filter: blur(6px);
+    border-radius: 60px;
+    padding: 2rem 1.8rem;
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.metric-icon {
+    width: 64px;
+    height: 64px;
+    background: #39FF14;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 15px rgba(77, 224, 130, 0.3);
+    margin-bottom: 1.2rem;
+}
+
+.metric-icon i {
+    font-size: 2rem;
+    color: #002911;
+}
+
+.metric-content h3 {
+    font-family: 'Aladin', cursive;
+    font-size: 1.8rem;
+    color: #053F1D;
+    margin-bottom: 0.5rem;
+}
+
+.metric-content p {
+    font-family: 'Rasa', sans-serif;
+    font-weight: 400;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    color: #C1C8BF;
+    margin-bottom: 1.2rem;
+}
+
+.metric-status {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.metric-status .status-label {
+    color: #BDCBAF;
+}
+
+.metric-status .status-value {
+    font-weight: bold;
+}
+
+.status-value.optimal {
+    color: #4DE082;
+}
+.status-value.safe {
+    color: #4DE082;
+}
+.status-value.high {
+    color: #4DE082;
+}
+.status-value.warning {
+    color: #FFD93D;
+}
+.status-value.danger {
+    color: #FF6B6B;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    position: relative;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #111413;
+    border-radius: 9999px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #7EFF70;
+    box-shadow: 0px 0px 10px rgba(77, 224, 130, 0.8);
+    border-radius: 9999px;
+    transition: width 0.8s ease;
+}
+
+.progress-gradient {
+    position: absolute;
+    height: 4px;
+    left: 1px;
+    right: 1px;
+    top: 1px;
+    background: linear-gradient(90deg, rgba(77, 224, 130, 0) 0%, #4DE082 50%, rgba(77, 224, 130, 0) 100%);
+    opacity: 0.5;
+    border-radius: 9999px;
+    pointer-events: none;
+}
+
+/* ===== AUTHENTICITY SECTION ===== */
+.authenticity-section {
+    margin-top: 1rem;
+}
+
+.authenticity-card {
+    background: linear-gradient(180deg, rgba(64, 77, 55, 0.4) 0%, rgba(3, 43, 19, 0.6) 100%);
+    backdrop-filter: blur(6px);
+    border-radius: 200px;
+    padding: 3rem 3rem 3rem 5rem;
+    border: 1px solid rgba(166, 209, 173, 0.1);
+    box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.authenticity-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.authenticity-header h2 {
+    font-family: 'Aladin', cursive;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: #053F1D;
+    margin-bottom: 0.5rem;
+}
+
+.header-line {
+    width: 100px;
+    height: 4px;
+    background: #39FF14;
+    box-shadow: 0px 0px 15px rgba(77, 224, 130, 0.3);
+    border-radius: 9999px;
+    margin: 0 auto;
+}
+
+.authenticity-grid {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.pillar {
+    flex: 1;
+    min-width: 200px;
+    max-width: 340px;
+    text-align: center;
+    padding: 0.5rem;
+}
+
+.pillar-icon {
+    width: 60px;
+    height: 60px;
+    background: #39FF14;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: 0px 0px 15px rgba(77, 224, 130, 0.2);
+}
+
+.pillar-icon i {
+    font-size: 1.8rem;
+    color: #002911;
+}
+
+.pillar h4 {
+    font-family: 'Aladin', cursive;
+    font-size: 1.6rem;
+    color: #053F1D;
+    margin-bottom: 0.5rem;
+}
+
+.pillar p {
+    font-family: 'Rasa', sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #C1C8BF;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1000px) {
+    .authenticity-card {
+        border-radius: 80px;
+        padding: 2rem;
+    }
+    .authenticity-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    .pillar {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .detectifyai-container {
+        padding: 1rem;
+    }
+    .hero-card {
+        padding: 1.5rem;
+        border-radius: 50px;
+    }
+    .metrics-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .metric-card {
+        max-width: 100%;
+        width: 100%;
+    }
+    .authenticity-card {
+        border-radius: 50px;
+        padding: 1.5rem;
+    }
+    .pillar {
+        min-width: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .metric-icon {
+        width: 50px;
+        height: 50px;
+    }
+    .metric-icon i {
+        font-size: 1.5rem;
+    }
+    .metric-content h3 {
+        font-size: 1.4rem;
+    }
+}
