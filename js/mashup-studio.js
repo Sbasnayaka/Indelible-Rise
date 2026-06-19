@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- PROMPT POOLS (30 each -> creates 55 unique shuffled combinations) ----
 const poolA = [
@@ -55,6 +56,7 @@ const levels = generatePairs();
 // ---- STATE ----
 let currentLevelIndex = 0;
 let userXP = 0;
+let userStreak = 0;
 
 // ---- DOM ELEMENTS ----
 const promptAEl = document.getElementById('promptA').querySelector('span');
@@ -278,12 +280,14 @@ onAuthStateChanged(auth, async (user) => {
         if (snap.exists()) {
             const data = snap.data();
             userXP = data.xp || 0;
+            userStreak = data.streak || 0;
             xpDisplaySpan.textContent = userXP;
             const savedLevel = data.mashupStudioLevel || 0;
+            userStreak = await updateUserStreak(user.uid, db);
             if (savedLevel >= levels.length) {
                 feedbackDiv.className = 'feedback-message success';
                 feedbackDiv.style.display = 'block';
-                feedbackDiv.innerHTML = '🏆 You have mastered all 55 levels! Amazing work!';
+                feedbackDiv.innerHTML = `✅ Brilliant idea! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your creativity is thriving! 🚀`;
                 submitBtn.disabled = true;
                 submitBtn.textContent = '🌟 Master';
                 return;
