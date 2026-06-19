@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- 55 QUESTION BANK ----
 const questions = [
@@ -616,6 +617,7 @@ const questions = [
 let currentQuestionIndex = 0; // will be set from Firestore
 let userXP = 0;
 let gameSessionStart = performance.now();
+let userStreak = 0;
 
 // ---- DOM ELEMENTS ----
 const claimCard = document.getElementById('claimCard');
@@ -810,6 +812,9 @@ submitBtn.addEventListener('click', async () => {
             claimDetectiveLevel: currentQuestionIndex + 1  // next level
         });
 
+         // ===== Update streak =====
+        userStreak = await updateUserStreak(user.uid, db);
+
         // Update local XP
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
@@ -824,9 +829,9 @@ submitBtn.addEventListener('click', async () => {
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
     if (isCorrect) {
-        feedbackDiv.innerHTML = `✅ Correct! +${xpEarned} XP. ${q.explanation}`;
+        feedbackDiv.innerHTML = `✅ Correct! +${xpEarned} XP.🔥 Streak: ${userStreak} days! ${q.explanation}`;
     } else {
-        feedbackDiv.innerHTML = `⚠️ Not quite. The weak evidence was <strong>${q.evidence[q.correctIndex].label}</strong>. ${q.explanation} +${xpEarned} XP for effort.`;
+        feedbackDiv.innerHTML = `⚠️ Not quite. The weak evidence was <strong>${q.evidence[q.correctIndex].label}</strong>. ${q.explanation} +${xpEarned} XP for effort.🔥 Streak: ${userStreak} days.`;
     }
 
     // 9. If correct, redirect to dashboard after short delay, else allow retry
@@ -868,6 +873,7 @@ onAuthStateChanged(auth, async (user) => {
         if (snap.exists()) {
             const data = snap.data();
             userXP = data.xp || 0;
+            userStreak = data.streak || 0;
             xpDisplaySpan.textContent = userXP;
             // Load saved level (0‑based index)
             const savedLevel = data.claimDetectiveLevel || 0;
