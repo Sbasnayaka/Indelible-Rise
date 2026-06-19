@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DetectifyAI | Indelible Rise</title>
+    <link rel="icon" type="image/png" href="assets/fav-icon.png">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Main shared styles -->
+    <link rel="stylesheet" href="css/main.css">
+    <!-- DetectifyAI specific styles -->
+    <link rel="stylesheet" href="css/detectifyai.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <!-- ========== NAVBAR (shared) ========== -->
+    <nav class="navbar">
+        <div class="nav-logo">
+            <img src="assets/nav-logo.png" alt="Indelible Rise">
+        </div>
+        <div class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="about.html" class="nav-link">About</a>
+            <a href="dashboard.html" class="nav-link">Dashboard</a>
+            <a href="profile.html" class="nav-link">Profile</a>
+            <div class="detectify-link active-nav">
+                <span class="status-dot"></span>
+                <a href="detectifyai.html" class="detectifyAI-btn active">DetectifyAI</a>
+            </div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </nav>
+
+    <!-- ========== DETECTIFYAI CONTENT ========== -->
+    <main class="detectifyai-container">
+
+        <!-- ===== HERO SECTION ===== -->
+        <section class="hero-section">
+            <div class="hero-card">
+                <h1>DetectifyAI<br>Powering Authentic Human Effort</h1>
+                <p class="hero-sub">A transparent look at the metrics that keep your training real and your cognitive vitality growing.</p>
+            </div>
+        </section>
+
+        <!-- ===== METRIC CARDS ===== -->
+        <section class="metrics-section">
+            <!-- Card 1: WPM Velocity -->
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>WPM Velocity</h3>
+                    <p>Monitoring typing cadence to ensure a natural, human rhythm during complex cognitive tasks.</p>
+                    <div class="metric-status">
+                        <span class="status-label">Current Phase</span>
+                        <span class="status-value optimal">Optimal</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="wpmProgress" style="width: 85%;"></div>
+                        </div>
+                        <div class="progress-gradient"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Paste Events -->
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-paste"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Paste Events</h3>
+                    <p>Tracking the frequency and volume of text insertions to prioritize original thought formulation.</p>
+                    <div class="metric-status">
+                        <span class="status-label">Suspicious Activity</span>
+                        <span class="status-value safe">Low</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="pasteProgress" style="width: 15%;"></div>
+                        </div>
+                        <div class="progress-gradient"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Lexical Diversity -->
+            <div class="metric-card">
+                <div class="metric-icon">
+                    <i class="fas fa-list-ul"></i>
+                </div>
+                <div class="metric-content">
+                    <h3>Lexical Diversity</h3>
+                    <p>Measuring the uniqueness and richness of vocabulary to reflect genuine mental engagement.</p>
+                    <div class="metric-status">
+                        <span class="status-label">Vocabulary Score</span>
+                        <span class="status-value high">High</span>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="ttrProgress" style="width: 92%;"></div>
+                        </div>
+                        <div class="progress-gradient"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== WHY AUTHENTICITY MATTERS ===== -->
+        <section class="authenticity-section">
+            <div class="authenticity-card">
+                <div class="authenticity-header">
+                    <h2>Why Authenticity Matters</h2>
+                    <div class="header-line"></div>
+                </div>
+                <div class="authenticity-grid">
+                    <!-- Pillar 1 -->
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h4>Neuroplasticity Anchor</h4>
+                        <p>Genuine effort builds stronger neural pathways. Shortcuts dilute the growth.</p>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Credential Integrity</h4>
+                        <p>Your progress is your own. Verified metrics ensure your achievements hold true value.</p>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="pillar">
+                        <div class="pillar-icon">
+                            <i class="fas fa-sliders-h"></i>
+                        </div>
+                        <h4>Continuous Calibration</h4>
+                        <p>Real-time data helps us adjust the difficulty curve to your exact cognitive needs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== FOOTER (shared) ========== -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <img src="assets/footer-logo.png" alt="Indelible Rise">
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h4>Quick links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Share your Thoughts</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-envelope"></i> <a href="mailto:sandunisandunibasnayaka01@gmail.com">sandunisandunibasnayaka01@gmail.com</a></li>
+                        <li><i class="fas fa-phone-alt"></i> +94740665317</li>
+                        <li class="social-links">
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="far fa-envelope"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Indelible Rise | Design by Sanduni Kaveesha Basnayaka</p>
+            <p>Built for real human thinking.</p>
+        </div>
+    </footer>
+
+    <!-- Firebase + DetectifyAI Scripts -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/detectifyai.js"></script>
+    <!-- main.js handles logout and mobile menu -->
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>
