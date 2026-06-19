@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- 55 LOGIC PUZZLES ----
 const logicPuzzles = [
@@ -66,6 +67,7 @@ const logicPuzzles = [
 // ---- STATE ----
 let currentLevelIndex = 0;
 let userXP = 0;
+let userStreak = 0;
 
 // ---- DOM ELEMENTS ----
 const factsList = document.getElementById('scatteredFactsList');
@@ -294,8 +296,12 @@ submitBtn.addEventListener('click', async () => {
             logicLoomLevel: currentLevelIndex + 1
         });
 
+        // =====  Update streak =====
+        userStreak = await updateUserStreak(user.uid, db);
+
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
+        
 
     } catch (error) {
         console.error('Firebase error:', error);
@@ -308,7 +314,7 @@ submitBtn.addEventListener('click', async () => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Solid reasoning! +${xpEarned} XP. Your logic is getting stronger! 🔗`;
+    feedbackDiv.innerHTML = `✅ Solid reasoning! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your logic is getting stronger! 🔗`;
 
     // 8. Advance to next level after delay
     submitBtn.disabled = true;
