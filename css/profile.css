@@ -1,39 +1,100 @@
-/* css/profile.css */
-
+/* ===== PROFILE CSS – MODERN & FABULOUS ===== */
 .profile-container {
     max-width: 1300px;
     margin: 0 auto;
     padding: 2rem 2rem 4rem;
     position: relative;
     z-index: 1;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+/* ------------------------------
+   KEYFRAMES
+--------------------------------- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(126, 255, 112, 0.3); }
+    70%  { box-shadow: 0 0 0 12px rgba(126, 255, 112, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(126, 255, 112, 0); }
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-8px); }
+    100% { transform: translateY(0px); }
 }
 
 /* ===== HERO SECTION ===== */
 .profile-hero {
     margin-bottom: 2.5rem;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .hero-card {
     display: flex;
     align-items: center;
     gap: 2.5rem;
-    background: rgba(0, 41, 17, 0.5);
-    border-radius: 50px;
+    background: rgba(0, 41, 17, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 60px;
     padding: 2rem 3rem;
     flex-wrap: wrap;
+    border: 1px solid rgba(126, 255, 112, 0.25);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.hero-card:hover {
+    transform: translateY(-4px);
+    border-color: #7EFF70;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(126, 255, 112, 0.2);
 }
 
 .hero-avatar {
     flex-shrink: 0;
+    position: relative;
 }
 
 .hero-avatar img {
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     object-fit: cover;
-    border: 4px solid #39FF14;
+    border: 4px solid #7EFF70;
+    box-shadow: 0 0 20px rgba(126, 255, 112, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
     background: #1a2a1a;
+}
+
+.hero-avatar img:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 30px rgba(126, 255, 112, 0.7);
+}
+
+.hero-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    padding: 3px;
+    background: linear-gradient(135deg, #7EFF70, #002911, #7EFF70);
+    background-size: 300% 300%;
+    z-index: -1;
+    animation: shimmer 4s infinite linear;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
 }
 
 .hero-details {
@@ -43,16 +104,30 @@
 
 .hero-details h1 {
     font-family: 'Mystery Quest', cursive;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #FFFFFF;
+    font-size: clamp(3rem, 6vw, 5rem);
     margin-bottom: 0.25rem;
+    transition: text-shadow 0.2s;
+    background-image: linear-gradient(60deg, #f5fc2f 5%, #1aff00 30%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;  
+    color: transparent;                
+}
+
+.hero-details h1:hover {
+    text-shadow: 0 0 12px #7EFF70;
 }
 
 .user-level {
     font-family: 'Rancho', cursive;
     font-size: clamp(1.2rem, 2.5vw, 2rem);
-    color: rgba(246, 246, 246, 0.7);
+    color: rgba(246, 246, 246, 0.8);
     margin-bottom: 0.8rem;
+    background: linear-gradient(90deg, #7EFF70, #aaffaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
 }
 
 .hero-tags {
@@ -65,9 +140,19 @@
     font-family: 'Rancho', cursive;
     font-size: 1.4rem;
     padding: 0.3rem 1.5rem;
-    background: rgba(0, 41, 17, 0.3);
+    background: rgba(0, 41, 17, 0.5);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(126, 255, 112, 0.2);
     border-radius: 66px;
     color: #FFFFFF;
+    transition: all 0.2s;
+}
+
+.tag:hover {
+    background: rgba(126, 255, 112, 0.15);
+    border-color: #7EFF70;
+    box-shadow: 0 0 12px rgba(126, 255, 112, 0.3);
+    transform: translateY(-2px);
 }
 
 /* ===== STAT CARDS ===== */
@@ -77,11 +162,13 @@
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 3rem;
+    margin-top: 5rem;
 }
 
 .stat-card {
-    background: rgba(0, 41, 17, 0.9);
-    border: 10px solid #7EFF70;
+    background: rgba(0, 41, 17, 0.6);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(126, 255, 112, 0.3);
     border-radius: 50px;
     padding: 1.5rem 2rem;
     min-width: 200px;
@@ -89,6 +176,20 @@
     max-width: 280px;
     text-align: center;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+.stat-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #7EFF70;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25), 0 0 20px rgba(126, 255, 112, 0.25);
+    background: rgba(0, 41, 17, 0.8);
 }
 
 .stat-icon {
@@ -97,6 +198,11 @@
     left: 1.5rem;
     font-size: 2rem;
     color: #7EFF70;
+    transition: transform 0.3s;
+}
+
+.stat-card:hover .stat-icon {
+    transform: scale(1.2) rotate(8deg);
 }
 
 .stat-card h3 {
@@ -114,6 +220,11 @@
     background-clip: text;
     color: transparent;
     margin: 0.2rem 0;
+    transition: text-shadow 0.2s;
+}
+
+.stat-card:hover .stat-value {
+    text-shadow: 0 0 12px rgba(126, 255, 112, 0.3);
 }
 
 .streak-stat .stat-value {
@@ -141,15 +252,24 @@
     gap: 2rem;
     margin-bottom: 3rem;
     flex-wrap: wrap;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
 }
 
 .chart-card {
     flex: 1;
     min-width: 300px;
-    background: #F6F6F6;
-    box-shadow: 0px 4px 16px rgba(0, 99, 9, 0.12);
+    background: rgba(246, 246, 246, 0.85);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
     border-radius: 40px;
     padding: 1.5rem 1.5rem 2rem;
+    border: 1px solid rgba(126, 255, 112, 0.15);
+    transition: all 0.3s;
+}
+
+.chart-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), 0 0 0 2px #7EFF70;
 }
 
 .chart-header {
@@ -171,6 +291,12 @@
 .chart-header i {
     font-size: 1.4rem;
     color: #3F4A3B;
+    transition: transform 0.2s;
+}
+
+.chart-card:hover .chart-header i {
+    transform: scale(1.15) rotate(5deg);
+    color: #7EFF70;
 }
 
 .chart-wrapper {
@@ -184,6 +310,11 @@
 }
 
 /* ===== TRIAD METRICS ===== */
+.triad-section {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+    margin-top: 6rem;
+}
+
 .section-title-badge {
     text-align: center;
     margin: 1.5rem auto 2.5rem;
@@ -191,6 +322,15 @@
     width: fit-content;
     padding: 0.6rem 2.5rem;
     border-radius: 50px;
+    border: 1px solid rgba(126, 255, 112, 0.3);
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.section-title-badge:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: #7EFF70;
+    box-shadow: 0 0 20px rgba(126, 255, 112, 0.25);
 }
 
 .section-title-badge span {
@@ -198,6 +338,11 @@
     font-weight: 700;
     font-size: 1.8rem;
     color: #F6F6F6;
+    transition: text-shadow 0.2s;
+}
+
+.section-title-badge:hover span {
+    text-shadow: 0 0 8px #7EFF70;
 }
 
 .triad-grid {
@@ -208,8 +353,9 @@
 }
 
 .triad-card {
-    background: rgba(0, 41, 17, 0.66);
-    border: 10px solid #7EFF70;
+    background: rgba(0, 41, 17, 0.6);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(126, 255, 112, 0.25);
     border-radius: 50px;
     padding: 1.8rem 2rem;
     min-width: 220px;
@@ -217,6 +363,20 @@
     max-width: 350px;
     text-align: center;
     position: relative;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+.triad-card:nth-child(1) { animation-delay: 0.3s; }
+.triad-card:nth-child(2) { animation-delay: 0.4s; }
+.triad-card:nth-child(3) { animation-delay: 0.5s; }
+
+.triad-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #7EFF70;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), 0 0 20px rgba(126, 255, 112, 0.2);
+    background: rgba(0, 41, 17, 0.8);
 }
 
 .triad-card h4 {
@@ -234,6 +394,11 @@
     background-clip: text;
     color: transparent;
     margin: 0.2rem 0;
+    transition: text-shadow 0.2s;
+}
+
+.triad-card:hover .triad-value {
+    text-shadow: 0 0 12px rgba(126, 255, 112, 0.3);
 }
 
 .triad-change {
@@ -256,6 +421,11 @@
     left: 1.5rem;
     font-size: 1.8rem;
     color: #7EFF70;
+    transition: transform 0.3s;
+}
+
+.triad-card:hover .triad-icon {
+    transform: scale(1.2) rotate(8deg);
 }
 
 /* ===== RESPONSIVE ===== */
