@@ -376,7 +376,7 @@
 
 .pillar:hover .pillar-icon {
     transform: scale(1.1) rotate(8deg);
-    box-shadow: 0 0 35px rgba(126, 255, 112, 0.6);
+    box-shadow: 0 0 35px rgba(117, 255, 112, 0.741);
 }
 
 .pillar-icon i {
@@ -401,7 +401,7 @@
     font-weight: 400;
     font-size: 1.7rem;
     line-height: 1.4;
-    color: #D0D8D0;
+    color: #e7f0e7;
 }
 
 /* ===== RESPONSIVE ===== */
