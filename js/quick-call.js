@@ -2,6 +2,7 @@
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { updateUserStreak } from './streak-utils.js';
 
 // ---- 55 QUICK DECISION SCENARIOS ----
 const quickScenarios = [
@@ -120,6 +121,7 @@ const quickScenarios = [
 // ---- STATE ----
 let currentLevelIndex = 0;
 let userXP = 0;
+let userStreak = 0;
 let timerInterval = null;
 let timeLeft = 10;
 let userChoice = '';
@@ -398,6 +400,8 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
             quickCallLevel: currentLevelIndex + 1
         });
 
+        userStreak = await updateUserStreak(user.uid, db);
+
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
 
@@ -411,8 +415,7 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Quick thinking! +${xpEarned} XP. Your intuition is sharp! ⚡`;
-
+feedbackDiv.innerHTML = `✅ Quick thinking! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your intuition is sharp! ⚡`;
     submitBtn.disabled = true;
     submitBtn.textContent = '🎉 Level Complete!';
 
@@ -441,12 +444,13 @@ onAuthStateChanged(auth, async (user) => {
         if (snap.exists()) {
             const data = snap.data();
             userXP = data.xp || 0;
+            userStreak = data.streak || 0;
             xpDisplaySpan.textContent = userXP;
             const savedLevel = data.quickCallLevel || 0;
             if (savedLevel >= quickScenarios.length) {
                 feedbackDiv.className = 'feedback-message success';
                 feedbackDiv.style.display = 'block';
-                feedbackDiv.innerHTML = '🏆 You have mastered all 55 levels! Amazing work!';
+                feedbackDiv.innerHTML = `✅ Quick thinking! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! 🏆 You have mastered all 55 levels! Amazing work!`;
                 submitBtn.disabled = true;
                 submitBtn.textContent = '🌟 Master';
                 choicePhase.style.display = 'none';
