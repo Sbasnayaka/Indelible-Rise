@@ -986,11 +986,11 @@ body {
     
     .hero-image img {
         max-width: 70%;
-        margin-left: 0;          /* removes large left margin */
+        margin-left: 0;      
         display: block;
         margin-left: auto;
-        margin-right: auto;      /* centers the GIF */
-        mix-blend-mode: normal;  /* optional: prevents over-darkening on small screens */
+        margin-right: auto;    
+        mix-blend-mode: normal; 
     }
 }
 
@@ -999,5 +999,359 @@ body {
         max-width: 85%;
         mask: radial-gradient(circle, black 60%, transparent 100%);
         -webkit-mask: radial-gradient(circle, black 60%, transparent 100%);
+    }
+}
+
+/* ----tablets & small laptops ---- */
+@media (max-width: 900px) {
+    .detectify-card {
+        flex-direction: column;
+        padding: 1.5rem;
+        border-radius: 32px;
+        gap: 1.5rem;
+    }
+
+    .detectify-left {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .detectify-right {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .detectify-header {
+        padding: 12px 20px;
+        gap: 12px;
+    }
+
+    .detectify-header h2 {
+        font-size: 28px;
+        line-height: 1.2;
+    }
+
+    .green-dot {
+        width: 18px;
+        height: 20px;
+        flex-shrink: 0;
+    }
+
+    .detectify-desc {
+        font-size: 1.05rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .detectify-features li {
+        font-size: 1rem;
+        gap: 10px;
+        margin-bottom: 0.6rem;
+    }
+
+    .session-card {
+        padding: 1.2rem 1.2rem 1rem;
+        border-radius: 32px;
+    }
+
+    .session-status {
+        font-size: 1.5rem;
+        margin-bottom: 1.2rem;
+        text-align: center;
+    }
+
+    .stats-row {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+
+    .stat-box {
+        padding: 0.8rem 1rem;
+        border-radius: 28px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        flex: 0 0 100%;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+        margin: 0.2rem 0 0;
+        flex: 0 0 auto;
+    }
+
+    .stat-note {
+        font-size: 0.7rem;
+        flex: 1 1 auto;
+        text-align: right;
+        padding-right: 0.5rem;
+    }
+
+    .stat-icon {
+        position: static;
+        font-size: 1.1rem;
+        opacity: 0.8;
+        flex: 0 0 auto;
+        margin-left: 4px;
+    }
+
+    .ttr-bar {
+        flex: 0 0 100%;
+        margin: 0.4rem 0 0.2rem;
+        height: 6px;
+    }
+
+    .session-header span {
+        font-size: 0.75rem;
+    }
+
+    .profile-icon i {
+        font-size: 1.8rem;
+    }
+}
+
+/* ---- screens up to 600px (large phones) ---- */
+@media (max-width: 600px) {
+    .detectify-section {
+        padding: 0 1rem;
+        margin: 1.5rem auto;
+    }
+
+    .detectify-card {
+        padding: 1.2rem;
+        border-radius: 24px;
+        gap: 1.2rem;
+    }
+
+    .detectify-header {
+        padding: 10px 16px;
+        gap: 10px;
+        border-radius: 40px;
+        margin-bottom: 14px;
+    }
+
+    .detectify-header h2 {
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .green-dot {
+        width: 14px;
+        height: 16px;
+    }
+
+    .detectify-desc {
+        font-size: 0.95rem;
+        line-height: 1.4;
+        margin-bottom: 1rem;
+    }
+
+    .detectify-features li {
+        font-size: 0.9rem;
+        gap: 8px;
+        margin-bottom: 0.5rem;
+    }
+
+    .detectify-features li i {
+        font-size: 1rem;
+    }
+
+    .session-card {
+        padding: 1rem 1rem 0.8rem;
+        border-radius: 24px;
+        border-width: 1.5px;
+    }
+
+    .session-status {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .session-header span {
+        font-size: 0.65rem;
+        letter-spacing: 0.5px;
+    }
+
+    .profile-icon i {
+        font-size: 1.5rem;
+    }
+
+    .stat-box {
+        padding: 0.6rem 0.8rem;
+        border-radius: 20px;
+        gap: 4px;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .stat-note {
+        font-size: 0.65rem;
+        padding-right: 0.25rem;
+    }
+
+    .stat-icon {
+        font-size: 1rem;
+    }
+
+    .ttr-bar {
+        height: 5px;
+        margin: 0.3rem 0 0;
+    }
+
+    .ttr-fill {
+        border-radius: 3px;
+    }
+}
+
+/* ---- screens up to 400px ---- */
+@media (max-width: 400px) {
+    .detectify-section {
+        padding: 0 0.6rem;
+        margin: 1rem auto;
+    }
+
+    .detectify-card {
+        padding: 0.9rem;
+        border-radius: 18px;
+        gap: 1rem;
+    }
+
+    .detectify-header {
+        padding: 8px 12px;
+        gap: 8px;
+        border-radius: 30px;
+        margin-bottom: 10px;
+    }
+
+    .detectify-header h2 {
+        font-size: 18px;
+    }
+
+    .green-dot {
+        width: 12px;
+        height: 14px;
+    }
+
+    .detectify-desc {
+        font-size: 0.85rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .detectify-features li {
+        font-size: 0.8rem;
+        gap: 6px;
+        margin-bottom: 0.4rem;
+    }
+
+    .detectify-features li i {
+        font-size: 0.85rem;
+    }
+
+    .session-card {
+        padding: 0.8rem 0.8rem 0.6rem;
+        border-radius: 18px;
+    }
+
+    .session-status {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .session-header span {
+        font-size: 0.55rem;
+    }
+
+    .profile-icon i {
+        font-size: 1.3rem;
+    }
+
+    .stat-box {
+        padding: 0.5rem 0.6rem;
+        border-radius: 16px;
+        flex-wrap: wrap;
+    }
+
+    .stat-label {
+        font-size: 0.6rem;
+        flex: 0 0 100%;
+    }
+
+    .stat-value {
+        font-size: 1.3rem;
+        flex: 0 0 auto;
+    }
+
+    .stat-note {
+        font-size: 0.55rem;
+        flex: 1 1 auto;
+    }
+
+    .stat-icon {
+        font-size: 0.85rem;
+    }
+
+    .ttr-bar {
+        height: 4px;
+        margin: 0.2rem 0 0;
+    }
+}
+
+/* ---- landscape phones  ---- */
+@media (max-height: 500px) and (max-width: 800px) {
+    .detectify-section {
+        margin: 1rem auto;
+    }
+
+    .detectify-card {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .detectify-header {
+        padding: 8px 14px;
+        margin-bottom: 8px;
+    }
+
+    .detectify-header h2 {
+        font-size: 20px;
+    }
+
+    .detectify-desc {
+        font-size: 0.85rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .detectify-features li {
+        font-size: 0.8rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .session-card {
+        padding: 0.8rem;
+    }
+
+    .session-status {
+        font-size: 1.1rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .stat-box {
+        padding: 0.4rem 0.6rem;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
     }
 }
