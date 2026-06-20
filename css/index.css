@@ -1426,6 +1426,7 @@ body {
         mix-blend-mode: screen;          
         filter: drop-shadow(0 0 12px rgba(3, 72, 24, 0.332));
         transition: all 0.4s ease;
+    }
 }
 
 /* ---- large phones (up to 768px) ---- */
