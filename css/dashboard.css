@@ -522,10 +522,252 @@
         position: relative !important;
         display: block !important;
     }
-    .hero-content h1 {
-        font-size: 2.5rem;
-    }
-    .detectify-card {
+}
+
+/* ============================================================
+   DASHBOARD HERO – MOBILE RESPONSIVE FIXES
+   Add this block to your dashboard.css (after existing styles)
+   ============================================================ */
+
+/* ---- tablets & small laptops (up to 900px) ---- */
+@media (max-width: 900px) {
+    .dashboard-hero {
         flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .hero-left {
+        flex: 1 1 auto;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .welcome-card-1 {
+        padding: 1.8rem 1.5rem;
+        border-radius: 60px;
+    }
+
+    .welcome-card-1 h1 {
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+        margin-top: 0.5rem;
+        line-height: 1.3;
+    }
+
+    .welcome-card-1 h1 .player-name {
+        text-underline-offset: 6px;
+        text-decoration-thickness: 2px;
+    }
+
+    .welcome-card-2 {
+        margin-left: 0;               /* remove left offset */
+        text-align: center;
+        margin-top: 0.5rem;
+    }
+
+    .welcome-card-2 p {
+        font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+        padding: 0.8rem 1.5rem;
+        border-radius: 40px;
+        display: inline-block;
+        max-width: 100%;
+    }
+
+    .hero-stats {
+        flex: 1 1 auto;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        min-width: 140px;
+        flex: 1 1 40%;
+        padding: 0.8rem 1rem 0.8rem 2.8rem;
+        border-radius: 40px;
+        text-align: center;
+    }
+
+    .stat-label {
+        font-size: 1.2rem;
+    }
+
+    .stat-value {
+        font-size: 2.2rem;
+        margin: 0.2rem 0;
+    }
+
+    .stat-icon {
+        width: 26px;
+        left: 12px;
+        top: 55%;
+    }
+}
+
+/* ---- large phones (up to 768px) ---- */
+@media (max-width: 768px) {
+    .dashboard-hero {
+        gap: 1.2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .welcome-card-1 {
+        padding: 1.2rem 1rem;
+        border-radius: 50px;
+    }
+
+    .welcome-card-1 h1 {
+        font-size: clamp(1.5rem, 4.5vw, 2.2rem);
+    }
+
+    .welcome-card-2 p {
+        font-size: 1.1rem;
+        padding: 0.6rem 1.2rem;
+        border-radius: 30px;
+    }
+
+    .hero-stats {
+        gap: 0.8rem;
+        justify-content: space-around;
+    }
+
+    .stat-card {
+        min-width: 120px;
+        flex: 1 1 45%;
+        padding: 0.6rem 0.8rem 0.6rem 2.2rem;
+        border-radius: 30px;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+    }
+
+    .stat-value {
+        font-size: 1.8rem;
+    }
+
+    .stat-icon {
+        width: 22px;
+        left: 10px;
+    }
+}
+
+/* ---- small phones (up to 480px) ---- */
+@media (max-width: 480px) {
+    .dashboard-hero {
+        gap: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .welcome-card-1 {
+        padding: 0.8rem 0.6rem;
+        border-radius: 40px;
+    }
+
+    .welcome-card-1 h1 {
+        font-size: 1.4rem;
+    }
+
+    .welcome-card-2 p {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        border-radius: 30px;
+    }
+
+    .hero-stats {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+    }
+
+    .stat-card {
+        min-width: 100px;
+        width: 100%;
+        max-width: 280px;
+        padding: 0.5rem 0.6rem 0.5rem 2rem;
+        border-radius: 30px;
+        flex: 0 1 auto;
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+    }
+
+    .stat-value {
+        font-size: 1.6rem;
+    }
+
+    .stat-icon {
+        width: 20px;
+        left: 8px;
+        top: 50%;
+    }
+}
+
+/* ---- landscape phones (height-constrained) ---- */
+@media (max-height: 500px) and (max-width: 800px) {
+    .dashboard-hero {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    .hero-left {
+        flex: 2 1 60%;
+        min-width: 0;
+    }
+
+    .welcome-card-1 {
+        padding: 0.6rem 0.8rem;
+        border-radius: 40px;
+    }
+
+    .welcome-card-1 h1 {
+        font-size: 1.4rem;
+        margin-top: 0;
+    }
+
+    .welcome-card-2 {
+        margin-left: 0;
+        margin-top: 0.2rem;
+    }
+
+    .welcome-card-2 p {
+        font-size: 0.9rem;
+        padding: 0.3rem 1rem;
+        border-radius: 20px;
+    }
+
+    .hero-stats {
+        flex: 1 1 30%;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    .stat-card {
+        min-width: 80px;
+        padding: 0.3rem 0.5rem 0.3rem 1.8rem;
+        border-radius: 20px;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .stat-value {
+        font-size: 1.2rem;
+        margin: 0;
+    }
+
+    .stat-icon {
+        width: 16px;
+        left: 6px;
+        top: 55%;
     }
 }
