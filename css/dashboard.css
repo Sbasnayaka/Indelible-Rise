@@ -524,11 +524,6 @@
     }
 }
 
-/* ============================================================
-   DASHBOARD HERO – MOBILE RESPONSIVE FIXES
-   Add this block to your dashboard.css (after existing styles)
-   ============================================================ */
-
 /* ---- tablets & small laptops (up to 900px) ---- */
 @media (max-width: 900px) {
     .dashboard-hero {

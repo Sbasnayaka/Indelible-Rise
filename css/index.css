@@ -887,7 +887,7 @@ body {
     opacity: 0.9;
 }
 
-/* ===== MOBILE RESPONSIVE (exactly as image scales down) ===== */
+/* ===== MOBILE RESPONSIVE  ===== */
 @media (max-width: 768px) {
     .footer {
         padding: 2rem 1.5rem 1rem;

@@ -236,6 +236,9 @@ submitBtn.addEventListener('click', async () => {
             mashupStudioLevel: currentLevelIndex + 1
         });
 
+        
+        userStreak = await updateUserStreak(user.uid, db);
+
         userXP += xpEarned;
         xpDisplaySpan.textContent = userXP;
 
@@ -283,7 +286,6 @@ onAuthStateChanged(auth, async (user) => {
             userStreak = data.streak || 0;
             xpDisplaySpan.textContent = userXP;
             const savedLevel = data.mashupStudioLevel || 0;
-            userStreak = await updateUserStreak(user.uid, db);
             if (savedLevel >= levels.length) {
                 feedbackDiv.className = 'feedback-message success';
                 feedbackDiv.style.display = 'block';
