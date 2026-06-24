@@ -619,6 +619,11 @@ form.addEventListener('submit', async (e) => {
     const a2 = ans2.value.trim();
     const a3 = ans3.value.trim();
 
+    const reEnable = () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Answers';
+    };
+
     // 1. Validate all fields are filled
     if (!a1 || !a2 || !a3) {
         feedbackDiv.className = 'feedback-message error';
