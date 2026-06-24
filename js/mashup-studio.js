@@ -77,6 +77,8 @@ const verdictDisplay = document.getElementById('verdictDisplay');
 const cognitiveFill = document.getElementById('cognitiveLoadFill');
 const cognitiveStatus = document.getElementById('cognitiveStatus');
 
+
+
 // ---- REAL‑TIME WORD COUNTER ----
 function updateWordCounter() {
     const text = answerText.value;
@@ -170,18 +172,25 @@ submitBtn.addEventListener('click', async () => {
     const userText = answerText.value.trim();
     const words = userText.match(/\b\w+\b/g) || [];
     const wordCount = words.length;
+    
+    const reEnable = () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Argument';
+    };
 
     // 1. Validate word count (minimum 30 words)
     if (wordCount < 30) {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = `Please write at least 30 words. You have ${wordCount} words. Keep going! ✍️`;
+        reEnable();
         return;
     }
 
     // 2. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
         alert('DetectifyAI engine not loaded. Please refresh.');
+        reEnable();
         return;
     }
     const result = runDetectifyCheck(userText);
@@ -201,6 +210,7 @@ submitBtn.addEventListener('click', async () => {
         answerText.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateWordCounter();
+        reEnable();
         return;
     }
 
@@ -245,6 +255,7 @@ submitBtn.addEventListener('click', async () => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        reEnable();
         return;
     }
 
