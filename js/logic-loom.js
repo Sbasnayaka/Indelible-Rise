@@ -206,6 +206,8 @@ function renderLevel(index) {
 
 // ---- SUBMIT LOGIC ----
 submitBtn.addEventListener('click', async () => {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     if (currentLevelIndex >= logicPuzzles.length) return;
 
     const step1 = step1Input.value.trim();
