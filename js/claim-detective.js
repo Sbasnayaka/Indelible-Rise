@@ -727,9 +727,14 @@ function renderQuestion(index) {
 
 // ---- SUBMIT LOGIC ----
 submitBtn.addEventListener('click', async () => {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
     const q = questions[currentQuestionIndex];
     if (!q) {
         // All levels done already
+        submitBtn.disabled = true;
+        submitBtn.textContent = '🏆 Master!';
         return;
     }
 
@@ -739,6 +744,8 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please select an evidence option (A, B, or C).';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Play Now'
         return;
     }
     const selectedIndex = parseInt(selected.value);
@@ -749,12 +756,16 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please write a proper explanation (at least 10 characters).';
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Play Now'
         return;
     }
 
     // 3. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
         alert('DetectifyAI engine not loaded. Please refresh.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Play Now'
         return;
     }
     const result = runDetectifyCheck(userText);
@@ -775,6 +786,8 @@ submitBtn.addEventListener('click', async () => {
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         // reset live stats after clear
         updateDetectifyStats('');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Play Now'
         return;
     }
 
@@ -822,6 +835,8 @@ submitBtn.addEventListener('click', async () => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Play Now'
         return;
     }
 
