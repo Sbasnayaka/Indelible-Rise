@@ -214,11 +214,17 @@ submitBtn.addEventListener('click', async () => {
     const step2 = step2Input.value.trim();
     const step3 = step3Input.value.trim();
 
+    const reEnable = () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Argument';
+    };
+
     // 1. Validate all fields are filled
     if (!step1 || !step2 || !step3) {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please fill in all three steps to build your argument.';
+        reEnable();
         return;
     }
 
@@ -231,6 +237,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Each step needs at least 5 words. Build a proper argument! 🧠';
+        reEnable();
         return;
     }
 

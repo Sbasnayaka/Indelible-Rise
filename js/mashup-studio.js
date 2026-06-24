@@ -177,7 +177,7 @@ submitBtn.addEventListener('click', async () => {
     
     const reEnable = () => {
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Submit Argument';
+        submitBtn.innerHTML = 'Submit Idea';
     };
 
     // 1. Validate word count (minimum 30 words)
