@@ -629,6 +629,7 @@ form.addEventListener('submit', async (e) => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please answer all 3 questions before submitting.';
+        reEnable();
         return;
     }
 
@@ -637,6 +638,7 @@ form.addEventListener('submit', async (e) => {
     // 2. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
         alert('DetectifyAI engine not loaded. Please refresh.');
+        reEnable();
         return;
     }
     const result = runDetectifyCheck(combined);
@@ -658,6 +660,7 @@ form.addEventListener('submit', async (e) => {
         ans3.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateDetectifyStats();
+        reEnable();
         return;
     }
 
@@ -702,6 +705,7 @@ form.addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        reEnable();
         return;
     }
 
