@@ -610,6 +610,8 @@ startQuizBtn.addEventListener('click', () => {
 // ---- SUBMIT LOGIC ----
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
     if (!quizStarted || currentLevelIndex >= memoryStories.length) return;
 
