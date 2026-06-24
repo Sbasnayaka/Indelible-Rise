@@ -167,10 +167,8 @@ function renderLevel(index) {
 
 // ---- SUBMIT LOGIC ----
 submitBtn.addEventListener('click', async () => {
-    
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-
     if (currentLevelIndex >= levels.length) return;
 
     const userText = answerText.value.trim();
