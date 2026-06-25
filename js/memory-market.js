@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- 55 STORIES WITH 3 QUESTIONS EACH ----
 const memoryStories = [
@@ -629,6 +630,7 @@ form.addEventListener('submit', async (e) => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please answer all 3 questions before submitting.';
+        showNotification('⚠️ Please answer all 3 questions.', 'error');
         reEnable();
         return;
     }
@@ -637,7 +639,7 @@ form.addEventListener('submit', async (e) => {
 
     // 2. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
         reEnable();
         return;
     }
@@ -655,6 +657,7 @@ form.addEventListener('submit', async (e) => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again with your own memory.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         ans1.value = '';
         ans2.value = '';
         ans3.value = '';
@@ -664,9 +667,27 @@ form.addEventListener('submit', async (e) => {
         return;
     }
 
-    // 5. Human verified! Save to Firebase
-    const xpEarned = 5;
+    // ---- MEMORY MARKET SPECIFIC CHECKS ----
     const story = memoryStories[currentLevelIndex];
+    const correctAnswers = story.answers; // array of 3 strings
+
+    // Helper: check if player answer matches correct answer (case-insensitive, partial match)
+    const isAnswerCorrect = (playerAns, correctAns) => {
+        if (!playerAns || !correctAns) return false;
+        const p = playerAns.toLowerCase().trim();
+        const c = correctAns.toLowerCase().trim();
+        // Check if correct answer is contained in player answer or vice versa (simple)
+        return p.includes(c) || c.includes(p);
+    };
+
+    const correct1 = isAnswerCorrect(a1, correctAnswers[0]);
+    const correct2 = isAnswerCorrect(a2, correctAnswers[1]);
+    const correct3 = isAnswerCorrect(a3, correctAnswers[2]);
+    const correctCount = [correct1, correct2, correct3].filter(Boolean).length;
+
+    let xpEarned = (correctCount === 3) ? 2 : -1;
+
+    // 5. Human verified! Save to Firebase
 
     try {
         const user = auth.currentUser;
@@ -683,6 +704,8 @@ form.addEventListener('submit', async (e) => {
                 answer2: a2,
                 answer3: a3
             },
+            correctAnswers: correctAnswers,
+            correctCount: correctCount,
             durationSeconds: result.duration,
             wpm: result.wpm,
             pasteRatio: result.pasteRatio,
@@ -705,6 +728,7 @@ form.addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
         reEnable();
         return;
     }
@@ -714,7 +738,24 @@ form.addEventListener('submit', async (e) => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Great recall! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your memory is getting sharper! 🧠`;
+
+    let feedbackMessage = '';
+    let notifType = 'success';
+    if (correctCount === 3) {
+        feedbackMessage = `✅ All 3 correct! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your memory is sharp! 🧠`;
+        notifType = 'success';
+    } else {
+        const wrong = [];
+        if (!correct1) wrong.push('Q1');
+        if (!correct2) wrong.push('Q2');
+        if (!correct3) wrong.push('Q3');
+        feedbackMessage = `❌ Wrong: ${wrong.join(', ')}. ${xpEarned} XP. 🔥 Streak: ${userStreak} days. Review the story and try again! 💡`;
+        notifType = 'error';
+    }
+    feedbackDiv.innerHTML = feedbackMessage;
+
+    const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
+    showNotification(plainMessage, notifType);
 
     // 7. Advance to next level after delay
     submitBtn.disabled = true;
@@ -724,7 +765,7 @@ form.addEventListener('submit', async (e) => {
         currentLevelIndex++;
         renderLevel(currentLevelIndex);
         document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
-    }, 2000);
+    }, 2500);
 });
 
 // ---- BACK BUTTON ----
