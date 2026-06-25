@@ -331,6 +331,8 @@ btnB.addEventListener('click', () => {
 // ---- SUBMIT REASONING ----
 document.getElementById('quickForm').addEventListener('submit', async (e) => {
     e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
 
     if (!choiceMade) return;
 
