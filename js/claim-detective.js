@@ -16,7 +16,7 @@ const questions = [
             { label: 'C', text: 'A chemical analysis showing increased brain activity.' }
         ],
         correctIndex: 1,
-        explanation: 'My friend Bob drank green tea and passed his math test. Anecdotal evidence from one person is not reliable scientific proof.'
+        explanation: 'Anecdotal evidence from one person is not reliable scientific proof.'
     },
     // 2
     {
@@ -27,7 +27,7 @@ const questions = [
             { label: 'C', text: 'Lab results show a temporary increase in alertness.' }
         ],
         correctIndex: 0,
-        explanation: 'My cousin drank one and got an A on her exam. One person\'s experience is not reliable evidence (anecdotal fallacy).'
+        explanation: 'One person\'s experience is not reliable evidence (anecdotal fallacy).'
     },
     // 3
     {
@@ -38,7 +38,7 @@ const questions = [
             { label: 'C', text: 'A clinical trial on 500 people showed modest weight loss.' }
         ],
         correctIndex: 1,
-        explanation: 'My sister ate chocolate and lost 5kg in a month. Personal testimony is not scientific evidence (anecdotal).'
+        explanation: 'Personal testimony is not scientific evidence (anecdotal).'
     },
     // 4
     {
@@ -49,7 +49,7 @@ const questions = [
             { label: 'C', text: 'A research paper comparing test scores of both groups.' }
         ],
         correctIndex: 1,
-        explanation: 'My friend failed his online class last semester. One person\'s failure does not prove the whole system is flawed.'
+        explanation: 'One person\'s failure does not prove the whole system is flawed.'
     },
     // 5
     {
@@ -60,7 +60,7 @@ const questions = [
             { label: 'C', text: 'A celebrity claimed her child developed autism after vaccination.' }
         ],
         correctIndex: 2,
-        explanation: 'A celebrity claimed her child developed autism after vaccination. Celebrity opinions are not scientific evidence (appeal to false authority).'
+        explanation: 'Celebrity opinions are not scientific evidence (appeal to false authority).'
     },
     // 6
     {
@@ -71,7 +71,7 @@ const questions = [
             { label: 'C', text: 'My neighbor stopped chemotherapy and drank only alkaline water, and now feels better.' }
         ],
         correctIndex: 2,
-        explanation: 'My neighbor stopped chemotherapy and drank only alkaline water, and now feels better. Personal anecdote does not establish a cure; controlled trials are needed.'
+        explanation: 'Personal anecdote does not establish a cure; controlled trials are needed.'
     },
     // 7
     {
@@ -82,7 +82,7 @@ const questions = [
             { label: 'C', text: 'Neuroscience research on memory consolidation during sleep.' }
         ],
         correctIndex: 1,
-        explanation: 'My classmate listens to Mozart and gets straight A\'s. A single example is not enough to prove the effect (anecdotal).'
+        explanation: 'A single example is not enough to prove the effect (anecdotal).'
     },
     // 8
     {
@@ -93,7 +93,7 @@ const questions = [
             { label: 'C', text: 'Immunological data showing improved circulation.' }
         ],
         correctIndex: 1,
-        explanation: 'My grandfather took cold showers and never got sick. Grandfather\'s experience is anecdotal; population studies are needed.'
+        explanation: 'Grandfather\'s experience is anecdotal; population studies are needed.'
     },
     // 9
     {
@@ -104,7 +104,7 @@ const questions = [
             { label: 'C', text: 'A controlled study showing breakfast eaters have lower BMI.' }
         ],
         correctIndex: 1,
-        explanation: 'My friend skipped breakfast and gained weight, so breakfast must be essential. One person\'s experience is not conclusive; correlation does not equal causation.'
+        explanation: 'One person\'s experience is not conclusive; correlation does not equal causation.'
     },
     // 10
     {
@@ -121,11 +121,11 @@ const questions = [
     {
         claim: '"Smartphones emit radiation that causes brain tumors in all users."',
         evidence: [
-            { label: 'A', text: 'A large epidemiological study across 20 countries.' },
-            { label: 'B', text: 'My uncle used a smartphone for 10 years and developed a brain tumor.' },
+            { label: 'A', text: 'My uncle used a smartphone for 10 years and developed a brain tumor.' },
+            { label: 'B', text: 'A large epidemiological study across 20 countries.' },
             { label: 'C', text: 'Physical measurements of radiofrequency emissions.' }
         ],
-        correctIndex: 1,
+        correctIndex: 0,
         explanation: 'One case does not establish a causal link; population studies are required.'
     },
     // 12
@@ -144,10 +144,10 @@ const questions = [
         claim: '"Electric cars are worse for the environment than petrol cars because of battery production."',
         evidence: [
             { label: 'A', text: 'A life-cycle analysis comparing total emissions.' },
-            { label: 'B', text: 'My neighbor bought an electric car and now pays more for electricity.' },
-            { label: 'C', text: 'A report on battery manufacturing energy usage.' }
+            { label: 'B', text: 'A report on battery manufacturing energy usage.' },
+            { label: 'C', text: 'My neighbor bought an electric car and now pays more for electricity.' }
         ],
-        correctIndex: 1,
+        correctIndex: 2,
         explanation: 'Personal experience with costs does not reflect overall environmental impact.'
     },
     // 14
@@ -176,11 +176,11 @@ const questions = [
     {
         claim: '"Meditation can cure depression without any side effects."',
         evidence: [
-            { label: 'A', text: 'A systematic review of meditation for depression.' },
-            { label: 'B', text: 'My friend stopped taking antidepressants and now meditates daily; she feels great.' },
+            { label: 'A', text: 'My friend stopped taking antidepressants and now meditates daily; she feels great.' },
+            { label: 'B', text: 'A systematic review of meditation for depression.' },
             { label: 'C', text: 'A randomized trial comparing meditation to cognitive therapy.' }
         ],
-        correctIndex: 1,
+        correctIndex: 0,
         explanation: 'Anecdotal success does not prove it cures depression for everyone.'
     },
     // 17
