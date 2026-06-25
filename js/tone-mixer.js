@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- 55 BASE SENTENCES ----
 const baseSentences = [
@@ -207,6 +208,8 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please fill in all three tone variations before submitting.';
+        showNotification('⚠️ Please fill in all three tone variations.', 'error');
+        reEnable();
         return;
     }
 
@@ -220,6 +223,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Each tone needs at least 3 words. Show some creativity! ✍️';
+        showNotification('✏️ Each tone needs at least 3 words.', 'error');
         reEnable();
         return;
     }
@@ -228,10 +232,11 @@ submitBtn.addEventListener('click', async () => {
 
     // 3. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
         reEnable();
         return;
     }
+    const combined = getCombinedText();
     const result = runDetectifyCheck(combined);
 
     // 4. Update stats
@@ -246,6 +251,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again with your own original writing.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         formalInput.value = '';
         funnyInput.value = '';
         empatheticInput.value = '';
@@ -255,8 +261,42 @@ submitBtn.addEventListener('click', async () => {
         return;
     }
 
+    // ---- TONE QUALITY CHECKS ----
+    const lowerFormal = formal.toLowerCase();
+    const lowerFunny = funny.toLowerCase();
+    const lowerEmpathetic = empathetic.toLowerCase();
+
+    // A) Check that all three are NOT identical (trimmed, case‑insensitive)
+    const areAllDistinct = !(
+        lowerFormal === lowerFunny &&
+        lowerFunny === lowerEmpathetic
+    );
+
+    // B) Tone‑specific keyword lists (can be extended)
+    const formalKeywords = ['please', 'apologise', 'regret', 'unfortunately', 'kindly', 'request', 'confirm', 'appreciate'];
+    const funnyKeywords = ['oops', 'hilarious', 'silly', 'joke', 'funny', 'crazy', 'lol', 'haha', 'whoops'];
+    const empatheticKeywords = ['sorry', 'understand', 'feel', 'concern', 'sympathise', 'care', 'hope', 'wish', 'apologize'];
+
+    const hasFormalWord = formalKeywords.some(word => lowerFormal.includes(word));
+    const hasFunnyWord = funnyKeywords.some(word => lowerFunny.includes(word));
+    const hasEmpatheticWord = empatheticKeywords.some(word => lowerEmpathetic.includes(word));
+
+    // Quality: all three are distinct AND each has at least one tone‑specific keyword
+    const isQuality = areAllDistinct && hasFormalWord && hasFunnyWord && hasEmpatheticWord;
+
+    let xpEarned = isQuality ? 2 : -1;
+    let qualityMessage = '';
+    if (!areAllDistinct) {
+        qualityMessage = 'All three answers are identical. ';
+    } else if (!hasFormalWord) {
+        qualityMessage = 'Missing formal tone indicator. ';
+    } else if (!hasFunnyWord) {
+        qualityMessage = 'Missing funny tone indicator. ';
+    } else if (!hasEmpatheticWord) {
+        qualityMessage = 'Missing empathetic tone indicator. ';
+    }
+
     // 6. Human verified! Save to Firebase
-    const xpEarned = 2;
     const sentence = baseSentences[currentLevelIndex];
 
     try {
@@ -296,7 +336,7 @@ submitBtn.addEventListener('click', async () => {
 
     } catch (error) {
         console.error('Firebase error:', error);
-        alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
         reEnable();
         return;
     }
@@ -308,6 +348,21 @@ submitBtn.addEventListener('click', async () => {
     feedbackDiv.style.display = 'block';
     feedbackDiv.innerHTML = `✅ Fantastic range! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your writing versatility is growing! 🚀`;
 
+    let feedbackMessage = '';
+    let notifType = 'success';
+    if (isQuality) {
+        feedbackMessage = `✅ Excellent tone range! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your writing versatility is growing! 🚀`;
+        notifType = 'success';
+    } else {
+        feedbackMessage = `❌ ${qualityMessage} -1 XP. 🔥 Streak: ${userStreak} days. Try to make each tone distinct and on‑brand. 💡`;
+        notifType = 'error';
+    }
+    feedbackDiv.innerHTML = feedbackMessage;
+
+    // Custom notification
+    const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
+    showNotification(plainMessage, notifType);
+
     // 8. Advance to next level after delay
     submitBtn.disabled = true;
     submitBtn.textContent = '🎉 Level Complete!';
@@ -316,7 +371,7 @@ submitBtn.addEventListener('click', async () => {
         currentLevelIndex++;
         renderLevel(currentLevelIndex);
         document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
-    }, 2000);
+    }, 2500);
 });
 
 // ---- BACK BUTTON ----
