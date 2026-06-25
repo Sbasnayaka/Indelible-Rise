@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- 55 QUICK DECISION SCENARIOS ----
 const quickScenarios = [
@@ -349,13 +350,15 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please write a more detailed reasoning (at least 10 words).';
+        showNotification('✏️ Please write at least 10 words.', 'error');
         reEnable();
         return;
     }
 
     // Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
+        reEnable();
         return;
     }
     const result = runDetectifyCheck(reason);
@@ -370,6 +373,7 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again with your own reasoning.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         reasonText.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateDetectifyStats();
@@ -377,8 +381,14 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
         return;
     }
 
+     // ---- QUICK CALL SPECIFIC CHECK: does reasoning mention the chosen option? ----
+    const chosenOption = userChoice; // e.g., "Fire 10%" or "Cut Pay 15%"
+    const mentioned = reason.toLowerCase().includes(chosenOption.toLowerCase());
+
+    // XP logic: +2 if mentioned, else -1
+    const xpEarned = mentioned ? 2 : -1;
+
     // Human verified – save to Firebase
-    const xpEarned = 5;
 
     try {
         const user = auth.currentUser;
@@ -416,7 +426,7 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
 
     } catch (error) {
         console.error('Firebase error:', error);
-        alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
         reEnable();
         return;
     }
@@ -425,7 +435,21 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-feedbackDiv.innerHTML = `✅ Quick thinking! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your intuition is sharp! ⚡`;
+
+    let feedbackMessage = '';
+    let notifType = 'success';
+    if (mentioned) {
+        feedbackMessage = `✅ Reasoning matches your choice! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your intuition is sharp! ⚡`;
+        notifType = 'success';
+    } else {
+        feedbackMessage = `❌ Your reasoning didn't mention "${chosenOption}". ${xpEarned} XP. 🔥 Streak: ${userStreak} days. Next time, explain why you chose that option! 💡`;
+        notifType = 'error';
+    }
+    feedbackDiv.innerHTML = feedbackMessage;
+
+    const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
+    showNotification(plainMessage, notifType);
+
     submitBtn.disabled = true;
     submitBtn.textContent = '🎉 Level Complete!';
 
@@ -433,7 +457,7 @@ feedbackDiv.innerHTML = `✅ Quick thinking! +${xpEarned} XP. 🔥 Streak: ${use
         currentLevelIndex++;
         renderLevel(currentLevelIndex);
         document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
-    }, 2000);
+    }, 2500);
 });
 
 // ---- BACK BUTTON ----
