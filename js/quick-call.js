@@ -338,12 +338,18 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
 
     const reason = reasonText.value.trim();
 
+    const reEnable = () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Reasoning';
+    };
+
     // Validate: at least 10 words
     const wordCount = reason.match(/\b\w+\b/g) || [];
     if (wordCount.length < 10) {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please write a more detailed reasoning (at least 10 words).';
+        reEnable();
         return;
     }
 
@@ -367,6 +373,7 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
         reasonText.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateDetectifyStats();
+        reEnable();
         return;
     }
 
@@ -410,6 +417,7 @@ document.getElementById('quickForm').addEventListener('submit', async (e) => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        reEnable();
         return;
     }
 
