@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- 55 QUESTION BANK ----
 const questions = [
@@ -744,6 +745,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please select an evidence option (A, B, or C).';
+        showNotification('⚠️ Please select an evidence option (A, B, or C).', 'error');
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Play Now'
         return;
@@ -756,6 +758,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please write a proper explanation (at least 10 characters).';
+        showNotification('✏️ Please write a proper explanation (at least 10 characters).', 'error');
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Play Now'
         return;
@@ -763,7 +766,7 @@ submitBtn.addEventListener('click', async () => {
 
     // 3. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Play Now'
         return;
@@ -782,6 +785,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         answerText.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         // reset live stats after clear
@@ -843,7 +847,7 @@ submitBtn.addEventListener('click', async () => {
 
     } catch (error) {
         console.error('Firebase error:', error);
-        alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Play Now'
         return;
@@ -856,8 +860,10 @@ submitBtn.addEventListener('click', async () => {
     feedbackDiv.style.display = 'block';
 
     let message = '';
+    let notifType = 'success';
     if (isCorrect) {
         message = `✅ Correct! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! ${q.explanation}`;
+        notifType = 'success';
     } else {
         let reason = '';
         if (selectedIndex !== q.correctIndex) {
@@ -866,14 +872,14 @@ submitBtn.addEventListener('click', async () => {
             reason = `Your explanation did not mention the correct evidence (${correctLabel}). `;
         }
         message = `❌ ${reason} -1 XP. 🔥 Streak: ${userStreak} days. Correct weak evidence was <strong>${q.evidence[q.correctIndex].label}</strong>. ${q.explanation}`;
+        notifType = 'error';
     }
 
     feedbackDiv.innerHTML = message;
 
-    // ----- ADDITIONAL POP‑UP NOTIFICATION (alert) -----
-    // Strip HTML tags for the alert (plain text only)
-    const plainMessage = message.replace(/<[^>]*>/g, ''); // simple strip
-    alert(plainMessage);
+    // ----- POP‑UP NOTIFICATION (alert) -----
+    const plainMessage = message.replace(/<[^>]*>/g, ''); // strip HTML for notification
+    showNotification(plainMessage, notifType);
 
 
     // 9. If correct, redirect to dashboard after short delay, else allow retry
