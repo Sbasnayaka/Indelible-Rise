@@ -196,6 +196,11 @@ submitBtn.addEventListener('click', async () => {
     const formal = formalInput.value.trim();
     const funny = funnyInput.value.trim();
     const empathetic = empatheticInput.value.trim();
+    
+    const reEnable = () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Tones';
+    };
 
     // 1. Validate all fields are filled
     if (!formal || !funny || !empathetic) {
@@ -210,10 +215,12 @@ submitBtn.addEventListener('click', async () => {
     const funnyWords = funny.match(/\b\w+\b/g) || [];
     const empatheticWords = empathetic.match(/\b\w+\b/g) || [];
 
+
     if (formalWords.length < 3 || funnyWords.length < 3 || empatheticWords.length < 3) {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Each tone needs at least 3 words. Show some creativity! ✍️';
+        reEnable();
         return;
     }
 
@@ -222,6 +229,7 @@ submitBtn.addEventListener('click', async () => {
     // 3. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
         alert('DetectifyAI engine not loaded. Please refresh.');
+        reEnable();
         return;
     }
     const result = runDetectifyCheck(combined);
@@ -243,6 +251,7 @@ submitBtn.addEventListener('click', async () => {
         empatheticInput.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateDetectifyStats();
+        reEnable();
         return;
     }
 
@@ -288,6 +297,7 @@ submitBtn.addEventListener('click', async () => {
     } catch (error) {
         console.error('Firebase error:', error);
         alert('Error saving progress. Please check your connection.');
+        reEnable();
         return;
     }
 
