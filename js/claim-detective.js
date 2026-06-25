@@ -15,18 +15,18 @@ const questions = [
             { label: 'C', text: 'A chemical analysis showing increased brain activity.' }
         ],
         correctIndex: 1,
-        explanation: 'Anecdotal evidence from one person is not reliable scientific proof.'
+        explanation: 'My friend Bob drank green tea and passed his math test. Anecdotal evidence from one person is not reliable scientific proof.'
     },
     // 2
     {
         claim: '"Energy drinks make you 200% smarter and boost your IQ instantly."',
         evidence: [
-            { label: 'A', text: 'A 3-year study on 10,000 university students.' },
-            { label: 'B', text: 'My cousin drank one and got an A on her exam.' },
+            { label: 'A', text: 'My friend Bob drank green tea and passed his math test.' },
+            { label: 'B', text: 'A 3-year study on 10,000 university students.' },
             { label: 'C', text: 'Lab results show a temporary increase in alertness.' }
         ],
-        correctIndex: 1,
-        explanation: 'One person\'s experience is not reliable evidence (anecdotal fallacy).'
+        correctIndex: 0,
+        explanation: 'My cousin drank one and got an A on her exam. One person\'s experience is not reliable evidence (anecdotal fallacy).'
     },
     // 3
     {
@@ -37,7 +37,7 @@ const questions = [
             { label: 'C', text: 'A clinical trial on 500 people showed modest weight loss.' }
         ],
         correctIndex: 1,
-        explanation: 'Personal testimony is not scientific evidence (anecdotal).'
+        explanation: 'My sister ate chocolate and lost 5kg in a month. Personal testimony is not scientific evidence (anecdotal).'
     },
     // 4
     {
@@ -48,29 +48,29 @@ const questions = [
             { label: 'C', text: 'A research paper comparing test scores of both groups.' }
         ],
         correctIndex: 1,
-        explanation: 'One person\'s failure does not prove the whole system is flawed.'
+        explanation: 'My friend failed his online class last semester. One person\'s failure does not prove the whole system is flawed.'
     },
     // 5
     {
         claim: '"Vaccines cause autism in children."',
         evidence: [
             { label: 'A', text: 'A retracted study from 1998 (since debunked).' },
-            { label: 'B', text: 'A celebrity claimed her child developed autism after vaccination.' },
-            { label: 'C', text: 'A meta-analysis of 100 million children showed no link.' }
+            { label: 'B', text: 'A meta-analysis of 100 million children showed no link.' },
+            { label: 'C', text: 'A celebrity claimed her child developed autism after vaccination.' }
         ],
-        correctIndex: 1,
-        explanation: 'Celebrity opinions are not scientific evidence (appeal to false authority).'
+        correctIndex: 2,
+        explanation: 'A celebrity claimed her child developed autism after vaccination. Celebrity opinions are not scientific evidence (appeal to false authority).'
     },
     // 6
     {
         claim: '"Drinking alkaline water cures cancer within months."',
         evidence: [
             { label: 'A', text: 'A peer-reviewed study in a reputable medical journal.' },
-            { label: 'B', text: 'My neighbor stopped chemotherapy and drank only alkaline water, and now feels better.' },
-            { label: 'C', text: 'A biochemical analysis of alkaline water effects on cells.' }
+            { label: 'B', text: 'A biochemical analysis of alkaline water effects on cells.' },
+            { label: 'C', text: 'My neighbor stopped chemotherapy and drank only alkaline water, and now feels better.' }
         ],
-        correctIndex: 1,
-        explanation: 'Personal anecdote does not establish a cure; controlled trials are needed.'
+        correctIndex: 2,
+        explanation: 'My neighbor stopped chemotherapy and drank only alkaline water, and now feels better. Personal anecdote does not establish a cure; controlled trials are needed.'
     },
     // 7
     {
@@ -81,7 +81,7 @@ const questions = [
             { label: 'C', text: 'Neuroscience research on memory consolidation during sleep.' }
         ],
         correctIndex: 1,
-        explanation: 'A single example is not enough to prove the effect (anecdotal).'
+        explanation: 'My classmate listens to Mozart and gets straight A\'s. A single example is not enough to prove the effect (anecdotal).'
     },
     // 8
     {
@@ -92,7 +92,7 @@ const questions = [
             { label: 'C', text: 'Immunological data showing improved circulation.' }
         ],
         correctIndex: 1,
-        explanation: 'Grandfather\'s experience is anecdotal; population studies are needed.'
+        explanation: 'My grandfather took cold showers and never got sick. Grandfather\'s experience is anecdotal; population studies are needed.'
     },
     // 9
     {
@@ -103,7 +103,7 @@ const questions = [
             { label: 'C', text: 'A controlled study showing breakfast eaters have lower BMI.' }
         ],
         correctIndex: 1,
-        explanation: 'One person\'s experience is not conclusive; correlation does not equal causation.'
+        explanation: 'My friend skipped breakfast and gained weight, so breakfast must be essential. One person\'s experience is not conclusive; correlation does not equal causation.'
     },
     // 10
     {
@@ -598,7 +598,7 @@ const questions = [
             { label: 'C', text: 'A physics explanation of apparent horizon curvature.' }
         ],
         correctIndex: 1,
-        explanation: 'A personal observation of the horizon does not override overwhelming scientific evidence.'
+        explanation: 'My friend took a photo of the horizon and it looks flat. A personal observation of the horizon does not override overwhelming scientific evidence.'
     },
     // 55
     {
@@ -791,9 +791,18 @@ submitBtn.addEventListener('click', async () => {
         return;
     }
 
+    // - Check if explanation mentions the correct evidence label ----
+    const correctLabel = q.evidence[q.correctIndex].label; // 'A', 'B', or 'C'
+    const containsLabel = (text, label) => {
+        // Match the letter as a standalone word (e.g., "A", "B", "C")
+        const regex = new RegExp(`\\b${label}\\b`, 'i');
+        return regex.test(text);
+    };
+    const typedCorrect = containsLabel(userText, correctLabel);
+
     // 6. Check if evidence choice is correct
-    const isCorrect = (selectedIndex === q.correctIndex);
-    const xpEarned = isCorrect ? 2 : 0;
+    const isCorrect = (selectedIndex === q.correctIndex) && typedCorrect;
+    let xpEarned = isCorrect ? 2 : -1;
 
     // 7. Save to Firebase (only if human)
     try {
@@ -841,13 +850,31 @@ submitBtn.addEventListener('click', async () => {
     }
 
     // 8. Show feedback
+    verdictDisplay.textContent = '✅ Human';
+    verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
+
+    let message = '';
     if (isCorrect) {
-        feedbackDiv.innerHTML = `✅ Correct! +${xpEarned} XP.🔥 Streak: ${userStreak} days! ${q.explanation}`;
+        message = `✅ Correct! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! ${q.explanation}`;
     } else {
-        feedbackDiv.innerHTML = `⚠️ Not quite. The weak evidence was <strong>${q.evidence[q.correctIndex].label}</strong>. ${q.explanation} +${xpEarned} XP for effort.🔥 Streak: ${userStreak} days.`;
+        let reason = '';
+        if (selectedIndex !== q.correctIndex) {
+            reason = 'You selected the wrong evidence. ';
+        } else if (!typedCorrect) {
+            reason = `Your explanation did not mention the correct evidence (${correctLabel}). `;
+        }
+        message = `❌ ${reason} -1 XP. 🔥 Streak: ${userStreak} days. Correct weak evidence was <strong>${q.evidence[q.correctIndex].label}</strong>. ${q.explanation}`;
     }
+
+    feedbackDiv.innerHTML = message;
+
+    // ----- ADDITIONAL POP‑UP NOTIFICATION (alert) -----
+    // Strip HTML tags for the alert (plain text only)
+    const plainMessage = message.replace(/<[^>]*>/g, ''); // simple strip
+    alert(plainMessage);
+
 
     // 9. If correct, redirect to dashboard after short delay, else allow retry
     submitBtn.disabled = true;

@@ -296,3 +296,111 @@ body {
 .play-btn .fa-spinner {
     margin-right: 8px;
 }
+
+/* ---- CUSTOM NOTIFICATION ---- */
+#custom-notification {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99999;
+    min-width: 320px;
+    max-width: 90%;
+    padding: 0;
+    border-radius: 16px;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    border: 2px solid transparent;
+}
+
+#custom-notification.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    top: 30px;
+}
+
+/* Neon glow animations */
+#custom-notification.success {
+    border-color: #39FF14;
+    box-shadow: 0 0 20px rgba(57, 255, 20, 0.6), 0 0 60px rgba(57, 255, 20, 0.3);
+    animation: glowPulseGreen 1.5s ease-in-out infinite alternate;
+}
+
+#custom-notification.error {
+    border-color: #FF1744;
+    box-shadow: 0 0 20px rgba(255, 23, 68, 0.6), 0 0 60px rgba(255, 23, 68, 0.3);
+    animation: glowPulseRed 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes glowPulseGreen {
+    0% { box-shadow: 0 0 15px rgba(57, 255, 20, 0.4), 0 0 30px rgba(57, 255, 20, 0.2); }
+    100% { box-shadow: 0 0 30px rgba(57, 255, 20, 0.8), 0 0 60px rgba(57, 255, 20, 0.4); }
+}
+
+@keyframes glowPulseRed {
+    0% { box-shadow: 0 0 15px rgba(255, 23, 68, 0.4), 0 0 30px rgba(255, 23, 68, 0.2); }
+    100% { box-shadow: 0 0 30px rgba(255, 23, 68, 0.8), 0 0 60px rgba(255, 23, 68, 0.4); }
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    color: #fff;
+    font-family: 'Rasa', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.4;
+    gap: 16px;
+}
+
+#notification-message {
+    flex: 1;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+    padding: 0 4px;
+}
+
+.notification-close:hover {
+    color: #fff;
+}
+
+/* Slide‑in animation */
+@keyframes slideDown {
+    0% { transform: translate(-50%, -120px); opacity: 0; }
+    100% { transform: translate(-50%, 0); opacity: 1; }
+}
+
+#custom-notification.show {
+    animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    #custom-notification {
+        min-width: unset;
+        width: 92%;
+        top: 10px;
+    }
+    #custom-notification.show {
+        top: 15px;
+    }
+    .notification-content {
+        font-size: 0.95rem;
+        padding: 14px 16px;
+    }
+}
