@@ -224,6 +224,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Please fill in all three steps to build your argument.';
+        showNotification('⚠️ Please fill in all three steps.', 'error');
         reEnable();
         return;
     }
@@ -237,6 +238,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = 'Each step needs at least 5 words. Build a proper argument! 🧠';
+        showNotification('✏️ Each step needs at least 5 words.', 'error');
         reEnable();
         return;
     }
@@ -245,7 +247,8 @@ submitBtn.addEventListener('click', async () => {
 
     // 3. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
+        reEnable();
         return;
     }
     const result = runDetectifyCheck(combined);
@@ -262,13 +265,16 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again with your own logical reasoning.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         step1Input.value = '';
         step2Input.value = '';
         step3Input.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateDetectifyStats();
+        reEnable();
         return;
     }
+    
 
     // 6. Human verified! Save to Firebase
     const xpEarned = 5;
