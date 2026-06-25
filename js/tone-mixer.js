@@ -192,7 +192,11 @@ submitBtn.addEventListener('click', async () => {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
     
-    if (currentLevelIndex >= baseSentences.length) return;
+    if (currentLevelIndex >= baseSentences.length) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = '🏆 Master!';
+        return;
+    }
 
     const formal = formalInput.value.trim();
     const funny = funnyInput.value.trim();
@@ -236,7 +240,7 @@ submitBtn.addEventListener('click', async () => {
         reEnable();
         return;
     }
-    const combined = getCombinedText();
+    
     const result = runDetectifyCheck(combined);
 
     // 4. Update stats
@@ -261,43 +265,56 @@ submitBtn.addEventListener('click', async () => {
         return;
     }
 
-    // ---- TONE QUALITY CHECKS ----
-    const lowerFormal = formal.toLowerCase();
-    const lowerFunny = funny.toLowerCase();
-    const lowerEmpathetic = empathetic.toLowerCase();
+    // ---- Tone Mixer specific checks ----
+    const sentence = baseSentences[currentLevelIndex];
+    // Get base sentence words (ignore common stopwords? We'll keep simple: any word with length > 2)
+    const baseWords = sentence.toLowerCase().match(/\b\w{3,}\b/g) || [];
 
-    // A) Check that all three are NOT identical (trimmed, case‑insensitive)
-    const areAllDistinct = !(
-        lowerFormal === lowerFunny &&
-        lowerFunny === lowerEmpathetic
-    );
+    // Helper: count how many base words appear in a tone (case-insensitive)
+    const countBaseWords = (tone) => {
+        const toneLower = tone.toLowerCase();
+        let count = 0;
+        // Use a set to count unique base words found
+        const found = new Set();
+        for (const word of baseWords) {
+            if (toneLower.includes(word) && !found.has(word)) {
+                found.add(word);
+                count++;
+            }
+        }
+        return count;
+    };
 
-    // B) Tone‑specific keyword lists (can be extended)
-    const formalKeywords = ['please', 'apologise', 'regret', 'unfortunately', 'kindly', 'request', 'confirm', 'appreciate'];
-    const funnyKeywords = ['oops', 'hilarious', 'silly', 'joke', 'funny', 'crazy', 'lol', 'haha', 'whoops'];
-    const empatheticKeywords = ['sorry', 'understand', 'feel', 'concern', 'sympathise', 'care', 'hope', 'wish', 'apologize'];
+    const formalCount = countBaseWords(formal);
+    const funnyCount = countBaseWords(funny);
+    const empatheticCount = countBaseWords(empathetic);
 
-    const hasFormalWord = formalKeywords.some(word => lowerFormal.includes(word));
-    const hasFunnyWord = funnyKeywords.some(word => lowerFunny.includes(word));
-    const hasEmpatheticWord = empatheticKeywords.some(word => lowerEmpathetic.includes(word));
+    // Check that the three tones are not identical (case-insensitive trim)
+    const areDistinct = !(formal.toLowerCase() === funny.toLowerCase() &&
+                          funny.toLowerCase() === empathetic.toLowerCase());
 
-    // Quality: all three are distinct AND each has at least one tone‑specific keyword
-    const isQuality = areAllDistinct && hasFormalWord && hasFunnyWord && hasEmpatheticWord;
+    // Check that each tone contains at least 2 base words
+    const allHaveKeywords = formalCount >= 2 && funnyCount >= 2 && empatheticCount >= 2;
 
-    let xpEarned = isQuality ? 2 : -1;
-    let qualityMessage = '';
-    if (!areAllDistinct) {
-        qualityMessage = 'All three answers are identical. ';
-    } else if (!hasFormalWord) {
-        qualityMessage = 'Missing formal tone indicator. ';
-    } else if (!hasFunnyWord) {
-        qualityMessage = 'Missing funny tone indicator. ';
-    } else if (!hasEmpatheticWord) {
-        qualityMessage = 'Missing empathetic tone indicator. ';
+    let xpEarned = 0;
+    let reasonMessage = '';
+
+    if (areDistinct && allHaveKeywords) {
+        xpEarned = 2;
+        reasonMessage = 'Great variety and keyword integration!';
+    } else {
+        xpEarned = -1;
+        const issues = [];
+        if (!areDistinct) issues.push('All three tones are identical.');
+        if (!allHaveKeywords) {
+            if (formalCount < 2) issues.push(`Formal tone missing base words (${formalCount}/2).`);
+            if (funnyCount < 2) issues.push(`Funny tone missing base words (${funnyCount}/2).`);
+            if (empatheticCount < 2) issues.push(`Empathetic tone missing base words (${empatheticCount}/2).`);
+        }
+        reasonMessage = issues.join(' ');
     }
 
     // 6. Human verified! Save to Firebase
-    const sentence = baseSentences[currentLevelIndex];
 
     try {
         const user = auth.currentUser;
@@ -346,20 +363,18 @@ submitBtn.addEventListener('click', async () => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Fantastic range! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your writing versatility is growing! 🚀`;
 
     let feedbackMessage = '';
     let notifType = 'success';
-    if (isQuality) {
-        feedbackMessage = `✅ Excellent tone range! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your writing versatility is growing! 🚀`;
+    if (xpEarned > 0) {
+        feedbackMessage = `✅ ${reasonMessage} +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your versatility is growing! 🚀`;
         notifType = 'success';
     } else {
-        feedbackMessage = `❌ ${qualityMessage} -1 XP. 🔥 Streak: ${userStreak} days. Try to make each tone distinct and on‑brand. 💡`;
+        feedbackMessage = `❌ ${reasonMessage} ${xpEarned} XP. 🔥 Streak: ${userStreak} days. Try to vary the tones and include keywords! 💡`;
         notifType = 'error';
     }
     feedbackDiv.innerHTML = feedbackMessage;
 
-    // Custom notification
     const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
     showNotification(plainMessage, notifType);
 
