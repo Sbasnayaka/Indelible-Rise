@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- 55 LOGIC PUZZLES ----
 const logicPuzzles = [
@@ -274,11 +275,51 @@ submitBtn.addEventListener('click', async () => {
         reEnable();
         return;
     }
-    
+
+    // ---- LOGIC LOOM SPECIFIC CHECKS ----
+    const puzzle = logicPuzzles[currentLevelIndex];
+    // Extract keywords from each fact (words with length >= 4, unique)
+    const factKeywords = puzzle.facts.map(fact => {
+        const words = fact.toLowerCase().match(/\b[a-z]{4,}\b/g) || [];
+        return [...new Set(words)];
+    });
+
+    // Helper: check if a step references all three facts (at least one keyword from each)
+    function referencesAllFacts(step, keywords) {
+        const stepLower = step.toLowerCase();
+        for (const kwList of keywords) {
+            const found = kwList.some(kw => stepLower.includes(kw));
+            if (!found) return false;
+        }
+        return true;
+    }
+
+    // Check each step
+    const step1Valid = referencesAllFacts(step1, factKeywords);
+    const step2Valid = referencesAllFacts(step2, factKeywords);
+    const step3Valid = referencesAllFacts(step3, factKeywords);
+
+    // Check that the three steps are not identical (case‑insensitive)
+    const areDistinct = !(step1.toLowerCase() === step2.toLowerCase() &&
+                          step2.toLowerCase() === step3.toLowerCase());
+
+    const isCorrect = step1Valid && step2Valid && step3Valid && areDistinct;
+    let xpEarned = isCorrect ? 2 : -1;
+
+    // Build reason message for feedback
+    let reasonMessage = '';
+    if (isCorrect) {
+        reasonMessage = 'All facts referenced and steps distinct!';
+    } else {
+        const issues = [];
+        if (!step1Valid) issues.push('Step 1 missing keywords.');
+        if (!step2Valid) issues.push('Step 2 missing keywords.');
+        if (!step3Valid) issues.push('Step 3 missing keywords.');
+        if (!areDistinct) issues.push('Steps are identical.');
+        reasonMessage = issues.join(' ');
+    }
 
     // 6. Human verified! Save to Firebase
-    const xpEarned = 5;
-    const puzzle = logicPuzzles[currentLevelIndex];
 
     try {
         const user = auth.currentUser;
@@ -320,7 +361,8 @@ submitBtn.addEventListener('click', async () => {
 
     } catch (error) {
         console.error('Firebase error:', error);
-        alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
+        reEnable();
         return;
     }
 
@@ -329,7 +371,20 @@ submitBtn.addEventListener('click', async () => {
     verdictDisplay.className = '';
     feedbackDiv.className = 'feedback-message success';
     feedbackDiv.style.display = 'block';
-    feedbackDiv.innerHTML = `✅ Solid reasoning! +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your logic is getting stronger! 🔗`;
+
+    let feedbackMessage = '';
+    let notifType = 'success';
+    if (isCorrect) {
+        feedbackMessage = `✅ ${reasonMessage} +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your logic is sharp! 🧠`;
+        notifType = 'success';
+    } else {
+        feedbackMessage = `❌ ${reasonMessage} ${xpEarned} XP. 🔥 Streak: ${userStreak} days. Make sure each step references all three facts! 💡`;
+        notifType = 'error';
+    }
+    feedbackDiv.innerHTML = feedbackMessage;
+
+    const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
+    showNotification(plainMessage, notifType);
 
     // 8. Advance to next level after delay
     submitBtn.disabled = true;
@@ -339,7 +394,7 @@ submitBtn.addEventListener('click', async () => {
         currentLevelIndex++;
         renderLevel(currentLevelIndex);
         document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
-    }, 2000);
+    }, 2500);
 });
 
 // ---- BACK BUTTON ----
