@@ -3,6 +3,7 @@ import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { doc, getDoc, updateDoc, increment, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { updateUserStreak } from './streak-utils.js';
+import { showNotification } from './notification.js';
 
 // ---- PROMPT POOLS (30 each -> creates 55 unique shuffled combinations) ----
 const poolA = [
@@ -185,13 +186,14 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = `Please write at least 30 words. You have ${wordCount} words. Keep going! ✍️`;
+        showNotification(`✏️ Please write at least 30 words. You have ${wordCount}.`, 'error');reEnable();
         reEnable();
         return;
     }
 
     // 2. Run DetectifyAI
     if (typeof runDetectifyCheck !== 'function') {
-        alert('DetectifyAI engine not loaded. Please refresh.');
+        showNotification('DetectifyAI engine not loaded. Please refresh.', 'error');
         reEnable();
         return;
     }
@@ -209,6 +211,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = result.message + ' Please try again with your own original thoughts.';
+        showNotification('🚫 ' + result.message + ' Please try again.', 'error');
         answerText.value = '';
         if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
         updateWordCounter();
@@ -217,8 +220,30 @@ submitBtn.addEventListener('click', async () => {
     }
 
     // 5. Human verified! Save to Firebase
-    const xpEarned = 5;
     const pair = levels[currentLevelIndex];
+
+    const keywordA = pair.a.trim();
+    const keywordB = pair.b.trim();
+    const lowerText = userText.toLowerCase();
+
+    const hasA = lowerText.includes(keywordA.toLowerCase());
+    const hasB = lowerText.includes(keywordB.toLowerCase());
+    
+    const xpEarned = 0;
+    let reasonMessage = '';
+
+    if (hasA && hasB) {
+        xpEarned = 2;
+        reasonMessage = 'Both ideas incorporated!';
+    } else if (hasA || hasB) {
+        xpEarned = -1;
+        const missing = !hasA ? keywordA : keywordB;
+        reasonMessage = `Missing "${missing}" – only one idea used.`;
+    } else {
+        xpEarned = -1;
+        reasonMessage = `Neither prompt idea was included.`;
+    }
+
 
     try {
         const user = auth.currentUser;
@@ -256,7 +281,7 @@ submitBtn.addEventListener('click', async () => {
 
     } catch (error) {
         console.error('Firebase error:', error);
-        alert('Error saving progress. Please check your connection.');
+        showNotification('Error saving progress. Please check your connection.', 'error');
         reEnable();
         return;
     }
@@ -268,6 +293,21 @@ submitBtn.addEventListener('click', async () => {
     feedbackDiv.style.display = 'block';
     feedbackDiv.innerHTML = `✅ Brilliant idea! +${xpEarned} XP. Your creativity is thriving! 🚀`;
 
+    let feedbackMessage = '';
+    let notifType = 'success';
+    if (xpEarned > 0) {
+        feedbackMessage = `✅ ${reasonMessage} +${xpEarned} XP. 🔥 Streak: ${userStreak} days! Your creativity is thriving! 🚀`;
+        notifType = 'success';
+    } else {
+        feedbackMessage = `❌ ${reasonMessage} ${xpEarned} XP. 🔥 Streak: ${userStreak} days. Try to weave both ideas next time! 💡`;
+        notifType = 'error';
+    }
+    feedbackDiv.innerHTML = feedbackMessage;
+
+    // Show custom notification
+    const plainMessage = feedbackMessage.replace(/<[^>]*>/g, '');
+    showNotification(plainMessage, notifType);
+
     // 7. Advance to next level after delay
     submitBtn.disabled = true;
     submitBtn.textContent = '🎉 Level Complete!';
@@ -276,7 +316,7 @@ submitBtn.addEventListener('click', async () => {
         currentLevelIndex++;
         renderLevel(currentLevelIndex);
         document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
-    }, 2000);
+    }, 2500);
 });
 
 // ---- BACK BUTTON ----
