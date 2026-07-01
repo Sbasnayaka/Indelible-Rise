@@ -16,16 +16,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
     btn.addEventListener("click", () => {
         modal.style.display = "block";
+    document.body.style.overflow = "hidden";
         loadUserProgress();
     });
 
     closeBtn.addEventListener("click", () => {
         modal.style.display = "none";
+    document.body.style.overflow = "";
     });
 
     window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
+        document.body.style.overflow = "";
         }
     });
 });
@@ -106,7 +109,7 @@ async function loadUserProgress() {
             };
 
             // Build the HTML
-            let html = `<div style="max-height: 500px; overflow-y: auto; padding-right: 5px;">`;
+            let html = `<div>`;
 
             for (const [gameId, g] of Object.entries(gamesData)) {
                 const meta = gameMeta[gameId] || { name: gameId, icon: 'fa-gamepad' };

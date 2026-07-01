@@ -811,14 +811,53 @@
     margin-left: 25px; 
     flex-shrink: 0;
 }
+
 /* Progress Modal - game card grid */
+
 #progress-content {
-    max-height: 70vh;
+    max-height: 50vh;
     overflow-y: auto;
+    padding-right: 8px;
+
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #39FF14 #102010;
 }
 
-#progress-content > div {
-    scroll-margin-top: 10px;
+/* Chrome, Edge, Safari */
+#progress-content::-webkit-scrollbar {
+    width: 10px;
+}
+
+#progress-content::-webkit-scrollbar-track {
+    background: #102010;
+    border-radius: 20px;
+    border: 1px solid rgba(57,255,20,0.15);
+}
+
+#progress-content::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+        180deg,
+        #5CFF4A,
+        #39FF14,
+        #0F7E15
+    );
+    border-radius: 20px;
+    border: 2px solid #102010;
+    transition: all 0.3s ease;
+}
+
+#progress-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+        180deg,
+        #7BFF6A,
+        #4CFF27,
+        #16A323
+    );
+}
+
+#progress-content::-webkit-scrollbar-corner {
+    background: transparent;
 }
 
 @media (max-width: 600px) {
@@ -831,6 +870,7 @@
         font-size: 1rem !important;
     }
 }
+
 
 
 /* Progress modal tabs */
