@@ -14,18 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // Open modal
     btn.addEventListener("click", () => {
         modal.style.display = "block";
         loadUserProgress();
     });
 
-    // Close modal
     closeBtn.addEventListener("click", () => {
         modal.style.display = "none";
     });
 
-    // Close on outside click
     window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
@@ -33,11 +30,23 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+// Helper: compute average of an array
+function avg(arr) {
+    if (!arr || arr.length === 0) return 0;
+    return arr.reduce((a, b) => a + b, 0) / arr.length;
+}
+
+// Helper: format a date from Firestore timestamp
+function formatDate(timestamp) {
+    if (!timestamp) return "N/A";
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
 async function loadUserProgress() {
     const contentDiv = document.getElementById("progress-content");
     if (!contentDiv) return;
 
-    // Wait for auth state
     onAuthStateChanged(auth, async (user) => {
         if (!user) {
             contentDiv.innerHTML = `<p style="color: #FF6B6B;">Please log in to view your progress.</p>`;
@@ -45,7 +54,6 @@ async function loadUserProgress() {
         }
 
         try {
-            // Query all submissions for this user
             const submissionsRef = collection(db, "submissions");
             const q = query(submissionsRef, where("userId", "==", user.uid));
             const snapshot = await getDocs(q);
@@ -55,56 +63,97 @@ async function loadUserProgress() {
                 return;
             }
 
-            // Skill trackers
-            const skills = {
-                logic: { name: "Logical Reasoning 🧩", plays: 0, xp: 0 },
-                creativity: { name: "Creativity & Language 💡", plays: 0, xp: 0 },
-                memory: { name: "Memory & Fast Thinking ⚡", plays: 0, xp: 0 }
-            };
+            // Group submissions by gameId
+            const gamesData = {};
 
-            // Categorise games
             snapshot.forEach(doc => {
                 const data = doc.data();
-                const gameId = data.gameId;
-                const earnedXP = data.xpAwarded || 0;
-
-                if (gameId === "claim-detective" || gameId === "logic-loom") {
-                    skills.logic.plays += 1;
-                    skills.logic.xp += earnedXP;
-                } else if (gameId === "mashup-studio" || gameId === "tone-mixer") {
-                    skills.creativity.plays += 1;
-                    skills.creativity.xp += earnedXP;
-                } else if (gameId === "memory-market" || gameId === "quick-call") {
-                    skills.memory.plays += 1;
-                    skills.memory.xp += earnedXP;
+                const gameId = data.gameId || "unknown";
+                if (!gamesData[gameId]) {
+                    gamesData[gameId] = {
+                        plays: 0,
+                        xpTotal: 0,
+                        wpmList: [],
+                        ttrList: [],
+                        pasteList: [],
+                        dates: [],
+                        firstDate: null,
+                        lastDate: null,
+                    };
+                }
+                const g = gamesData[gameId];
+                g.plays += 1;
+                g.xpTotal += data.xpAwarded || 0;
+                if (data.wpm) g.wpmList.push(data.wpm);
+                if (data.ttr) g.ttrList.push(data.ttr);
+                if (data.pasteRatio) g.pasteList.push(data.pasteRatio);
+                if (data.timestamp) {
+                    const d = data.timestamp.toDate ? data.timestamp.toDate() : new Date(data.timestamp);
+                    g.dates.push(d);
+                    if (!g.firstDate || d < g.firstDate) g.firstDate = d;
+                    if (!g.lastDate || d > g.lastDate) g.lastDate = d;
                 }
             });
 
+            // Define display names and icons for each game
+            const gameMeta = {
+                'claim-detective': { name: 'Claim Detective', icon: 'fa-search' },
+                'logic-loom': { name: 'Logic Loom', icon: 'fa-brain' },
+                'mashup-studio': { name: 'Mashup Studio', icon: 'fa-lightbulb' },
+                'tone-mixer': { name: 'Tone Mixer', icon: 'fa-sliders-h' },
+                'memory-market': { name: 'Memory Market', icon: 'fa-database' },
+                'quick-call': { name: 'Quick Call', icon: 'fa-bolt' }
+            };
+
             // Build the HTML
-            let html = "";
-            for (const key in skills) {
-                const skill = skills[key];
-                const level = Math.max(1, Math.floor(skill.xp / 100) + 1);
-                const status = skill.plays > 0 ? "📈 Improving" : "⏳ Needs Practice";
-                // color based on XP
-                const barColor = skill.xp > 50 ? "#39FF14" : skill.xp > 20 ? "#FFD700" : "#FF6B6B";
+            let html = `<div style="max-height: 500px; overflow-y: auto; padding-right: 5px;">`;
+
+            for (const [gameId, g] of Object.entries(gamesData)) {
+                const meta = gameMeta[gameId] || { name: gameId, icon: 'fa-gamepad' };
+                const avgWPM = avg(g.wpmList).toFixed(1);
+                const avgTTR = avg(g.ttrList).toFixed(2);
+                const avgPaste = avg(g.pasteList).toFixed(1);
+                const startDate = formatDate(g.firstDate);
+                const lastDate = formatDate(g.lastDate);
+
+                // Determine improvement: compare first 3 vs last 3 WPM
+                let trend = '—';
+                if (g.wpmList.length >= 2) {
+                    const first = g.wpmList.slice(0, Math.min(3, g.wpmList.length));
+                    const last = g.wpmList.slice(-Math.min(3, g.wpmList.length));
+                    const avgFirst = avg(first);
+                    const avgLast = avg(last);
+                    if (avgLast > avgFirst * 1.05) trend = '📈 Improving';
+                    else if (avgLast < avgFirst * 0.95) trend = '📉 Needs Focus';
+                    else trend = '➡️ Steady';
+                }
 
                 html += `
-                    <div style="background: rgba(20,40,20,0.6); padding: 16px; margin-bottom: 14px; border-radius: 16px; border-left: 4px solid ${barColor}; backdrop-filter: blur(2px);">
-                        <h3 style="margin: 0 0 6px 0; color: #fff; font-size: 1.2rem;">${skill.name}</h3>
-                        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px;">
-                            <span><strong>Status:</strong> ${status}</span>
-                            <span><strong>Level:</strong> ${level}</span>
-                            <span><strong>⭐ XP:</strong> ${skill.xp}</span>
+                    <div style="background: rgba(20,40,20,0.7); padding: 16px; margin-bottom: 16px; border-radius: 16px; border-left: 4px solid #39FF14; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <i class="fas ${meta.icon}" style="color: #39FF14; font-size: 1.6rem;"></i>
+                            <h3 style="margin: 0; color: #fff; font-size: 1.3rem;">${meta.name}</h3>
+                            <span style="margin-left: auto; background: #2a4a2a; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; color: #ccc;">${g.plays} plays</span>
                         </div>
-                        <div style="margin-top: 8px; background: #1a2a1a; border-radius: 8px; height: 8px; width: 100%; overflow: hidden;">
-                            <div style="width: ${Math.min(100, skill.xp)}%; height: 100%; background: ${barColor}; border-radius: 8px; transition: width 0.6s;"></div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; font-size: 0.9rem; color: #ddd;">
+                            <div><strong>⭐ XP</strong> ${g.xpTotal}</div>
+                            <div><strong>⚡ Avg WPM</strong> ${avgWPM}</div>
+                            <div><strong>📊 Avg TTR</strong> ${avgTTR}</div>
+                            <div><strong>📋 Avg Paste</strong> ${avgPaste}%</div>
+                            <div><strong>📅 Started</strong> ${startDate}</div>
+                            <div><strong>🕒 Last</strong> ${lastDate}</div>
+                            <div><strong>📈 Trend</strong> ${trend}</div>
                         </div>
-                        <div style="margin-top: 4px; font-size: 0.8rem; color: #aaa;">Games completed: ${skill.plays}</div>
+                        <!-- Mini progress bar for WPM improvement (optional) -->
+                        <div style="margin-top: 10px; background: #1a2a1a; border-radius: 6px; height: 6px; width: 100%; overflow: hidden;">
+                            <div style="width: ${Math.min(100, (avgWPM / 60) * 100)}%; height: 100%; background: #39FF14; border-radius: 6px;"></div>
+                        </div>
+                        <div style="margin-top: 4px; font-size: 0.7rem; color: #888;">WPM progress (relative)</div>
                     </div>
                 `;
             }
 
+            html += `</div>`;
             contentDiv.innerHTML = html;
 
         } catch (error) {

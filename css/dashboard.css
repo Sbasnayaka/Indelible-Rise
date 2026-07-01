@@ -811,3 +811,57 @@
     margin-left: 25px; 
     flex-shrink: 0;
 }
+/* Progress Modal - game card grid */
+#progress-content {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+#progress-content > div {
+    scroll-margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+    #progress-content > div > div {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 4px 12px !important;
+        font-size: 0.8rem !important;
+    }
+    #progress-content h3 {
+        font-size: 1rem !important;
+    }
+}
+
+
+/* Progress modal tabs */
+.progress-tab.active {
+    background: rgba(57, 255, 20, 0.2) !important;
+    color: #39FF14 !important;
+}
+.progress-tab:hover {
+    color: #fff;
+}
+#progress-modal table {
+    color: #ddd;
+}
+#progress-modal table th {
+    font-weight: 600;
+    color: #aaa;
+}
+#progress-modal table td {
+    padding: 4px 6px;
+}
+@media (max-width: 600px) {
+    #progress-modal > div {
+        margin: 10% auto !important;
+        padding: 16px !important;
+        width: 95% !important;
+    }
+    #progress-modal .progress-tab {
+        font-size: 0.9rem !important;
+        padding: 4px 12px !important;
+    }
+    #progress-modal table {
+        font-size: 0.7rem !important;
+    }
+}
