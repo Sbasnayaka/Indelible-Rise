@@ -186,7 +186,7 @@ submitBtn.addEventListener('click', async () => {
         feedbackDiv.className = 'feedback-message error';
         feedbackDiv.style.display = 'block';
         feedbackDiv.textContent = `Please write at least 30 words. You have ${wordCount} words. Keep going! ✍️`;
-        showNotification(`✏️ Please write at least 30 words. You have ${wordCount}.`, 'error');reEnable();
+        showNotification(`✏️ Please write at least 30 words. You have ${wordCount}.`, 'error');
         reEnable();
         return;
     }
@@ -229,7 +229,7 @@ submitBtn.addEventListener('click', async () => {
     const hasA = lowerText.includes(keywordA.toLowerCase());
     const hasB = lowerText.includes(keywordB.toLowerCase());
     
-    const xpEarned = 0;
+    let xpEarned = 0;
     let reasonMessage = '';
 
     if (hasA && hasB) {
