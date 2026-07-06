@@ -404,3 +404,42 @@ body {
         padding: 14px 16px;
     }
 }
+
+/* Sticky DetectifyAI box – stays visible while scrolling */
+.detectify-box {
+    position: sticky;
+    top: 20px;                /* distance from top of viewport */
+    z-index: 10;              /* ensure it stays above other content */
+    transition: box-shadow 0.3s ease;
+}
+
+/* Optional: add a subtle shadow when sticky to make it pop */
+.detectify-box.sticky-shadow {
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+}
+
+/* Mobile adjustments – smaller top offset and tighter padding */
+@media (max-width: 768px) {
+    .detectify-box {
+        top: 10px;
+        margin: 0 10px;       /* prevent touching screen edges */
+    }
+    /* Reduce padding if needed */
+    .detectify-box .detectify-header h3 {
+        font-size: 0.9rem;
+    }
+    .detectify-box .stat-row {
+        font-size: 0.85rem;
+    }
+}
+
+/* For very small screens, ensure it doesn't cover important UI */
+@media (max-width: 480px) {
+    .detectify-box {
+        top: 5px;
+        padding: 10px 12px;
+    }
+    .detectify-box .detectify-footer {
+        font-size: 0.7rem;
+    }
+}
