@@ -455,6 +455,7 @@ let userXP = 0;
 let quizStarted = false;
 let currentStory = null;
 let userStreak = 0;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const storyPhase = document.getElementById('storyPhase');
@@ -606,7 +607,39 @@ startQuizBtn.addEventListener('click', () => {
 
     // Focus first input
     ans1.focus();
+
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
 });
+
+// ---- SHOW HOW-TO OVERLAY (only when coming from dashboard) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlayShown = true;
+
+    const dismiss = () => {
+        overlay.style.display = 'none';
+        overlay.onclick = null;
+        startBtn.onclick = null;
+    };
+
+    const startBtn = document.getElementById('start-game-btn');
+
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            dismiss();
+        }
+    };
+
+    startBtn.onclick = function(e) {
+        e.stopPropagation();
+        dismiss();
+    };
+}
 
 // ---- SUBMIT LOGIC ----
 form.addEventListener('submit', async (e) => {
