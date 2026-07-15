@@ -58,6 +58,7 @@ const levels = generatePairs();
 let currentLevelIndex = 0;
 let userXP = 0;
 let userStreak = 0;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const promptAEl = document.getElementById('promptA').querySelector('span');
@@ -164,6 +165,43 @@ function renderLevel(index) {
     };
     answerText.addEventListener('input', listener);
     window._mashupInputListener = listener;
+
+    if (!overlayShown && index === 0) {
+        showHowToOverlay();
+    }
+}
+
+// ---- SHOW HOW-TO OVERLAY (first time only) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    // Show overlay
+    overlay.style.display = 'flex';
+    overlayShown = true;
+
+    // Dismiss function
+    const dismiss = () => {
+        overlay.style.display = 'none';
+        // Remove event listeners to avoid memory leaks
+        overlay.onclick = null;
+        startBtn.onclick = null;
+    };
+
+    const startBtn = document.getElementById('start-game-btn');
+
+    // Click on overlay background (but not on the inner card) closes it
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            dismiss();
+        }
+    };
+
+    // Click on the "Start Creating" button closes it
+    startBtn.onclick = function(e) {
+        e.stopPropagation();
+        dismiss();
+    };
 }
 
 // ---- SUBMIT LOGIC ----
