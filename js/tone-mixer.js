@@ -68,6 +68,7 @@ const baseSentences = [
 let currentLevelIndex = 0;
 let userXP = 0;
 let userStreak = 0;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const sentenceDisplay = document.getElementById('baseSentenceDisplay');
@@ -184,6 +185,41 @@ function renderLevel(index) {
     funnyInput.addEventListener('input', listener);
     empatheticInput.addEventListener('input', listener);
     window._toneInputListener = listener;
+
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
+}
+
+// ---- SHOW HOW-TO OVERLAY (first time only) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    // Show overlay
+    overlay.style.display = 'flex';
+    overlayShown = true;
+
+    const dismiss = () => {
+        overlay.style.display = 'none';
+        overlay.onclick = null;
+        startBtn.onclick = null;
+    };
+
+    const startBtn = document.getElementById('start-game-btn');
+
+    // Click on overlay background (but not on inner card) closes it
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            dismiss();
+        }
+    };
+
+    // Click on the "Start Mixing" button closes it
+    startBtn.onclick = function(e) {
+        e.stopPropagation();
+        dismiss();
+    };
 }
 
 // ---- SUBMIT LOGIC ----
