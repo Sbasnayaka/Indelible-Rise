@@ -129,6 +129,7 @@ let userChoice = '';
 let timeTaken = 0;
 let choiceMade = false;
 let currentScenario = null;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const choicePhase = document.getElementById('choicePhase');
@@ -308,7 +309,9 @@ function renderLevel(index) {
         window._quickInputListener = null;
     }
 
-     showHowToOverlay();
+     if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
 }
 
 // ---- SHOW HOW-TO OVERLAY (first time, or after each level) ----
@@ -318,6 +321,7 @@ function showHowToOverlay() {
 
     // Show overlay
     overlay.style.display = 'flex';
+    overlayShown = true;
 
     // Remove any previous event listeners to avoid duplicates
     const startBtn = document.getElementById('start-game-btn');
