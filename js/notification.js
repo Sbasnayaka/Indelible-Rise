@@ -60,7 +60,7 @@ function hideNotification() {
         // Remove glow classes after animation ends
         setTimeout(() => {
             notif.classList.remove('success', 'error');
-        }, 500);
+        }, 5000);
     }
 }
 
