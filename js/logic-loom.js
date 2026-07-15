@@ -69,6 +69,7 @@ const logicPuzzles = [
 let currentLevelIndex = 0;
 let userXP = 0;
 let userStreak = 0;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const factsList = document.getElementById('scatteredFactsList');
@@ -203,6 +204,38 @@ function renderLevel(index) {
     step2Input.addEventListener('input', listener);
     step3Input.addEventListener('input', listener);
     window._logicInputListener = listener;
+
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
+}
+
+// ---- SHOW HOW-TO OVERLAY (only when coming from dashboard) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlayShown = true;
+
+    const dismiss = () => {
+        overlay.style.display = 'none';
+        overlay.onclick = null;
+        startBtn.onclick = null;
+    };
+
+    const startBtn = document.getElementById('start-game-btn');
+
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            dismiss();
+        }
+    };
+
+    startBtn.onclick = function(e) {
+        e.stopPropagation();
+        dismiss();
+    };
 }
 
 // ---- SUBMIT LOGIC ----
