@@ -619,6 +619,7 @@ let currentQuestionIndex = 0; // will be set from Firestore
 let userXP = 0;
 let gameSessionStart = performance.now();
 let userStreak = 0;
+let overlayShown = false;
 
 // ---- DOM ELEMENTS ----
 const claimCard = document.getElementById('claimCard');
@@ -724,6 +725,38 @@ function renderQuestion(index) {
     };
     answerText.addEventListener('input', listener);
     window._detectifyInputListener = listener; // store for removal
+
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
+}
+
+// ---- SHOW HOW-TO OVERLAY (only when coming from dashboard) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlayShown = true;
+
+    const dismiss = () => {
+        overlay.style.display = 'none';
+        overlay.onclick = null;
+        startBtn.onclick = null;
+    };
+
+    const startBtn = document.getElementById('start-game-btn');
+
+    overlay.onclick = function(e) {
+        if (e.target === overlay) {
+            dismiss();
+        }
+    };
+
+    startBtn.onclick = function(e) {
+        e.stopPropagation();
+        dismiss();
+    };
 }
 
 // ---- SUBMIT LOGIC ----
