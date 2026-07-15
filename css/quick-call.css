@@ -755,3 +755,31 @@
         display: block !important;
     }
 }
+
+/* How-to overlay fade-in */
+#how-to-overlay {
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.96); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    #how-to-overlay > div {
+        padding: 25px 18px !important;
+        width: 95% !important;
+    }
+    #how-to-overlay h2 {
+        font-size: 1.6rem !important;
+    }
+    #how-to-overlay ul {
+        font-size: 0.85rem !important;
+    }
+    #start-game-btn {
+        padding: 10px 25px !important;
+        font-size: 1rem !important;
+    }
+}

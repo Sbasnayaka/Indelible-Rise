@@ -308,8 +308,38 @@ function renderLevel(index) {
         window._quickInputListener = null;
     }
 
-    // Start the timer
-    startTimer();
+     showHowToOverlay();
+}
+
+// ---- SHOW HOW-TO OVERLAY (first time, or after each level) ----
+function showHowToOverlay() {
+    const overlay = document.getElementById('how-to-overlay');
+    if (!overlay) return;
+
+    // Show overlay
+    overlay.style.display = 'flex';
+
+    // Remove any previous event listeners to avoid duplicates
+    const startBtn = document.getElementById('start-game-btn');
+    const closeOverlay = () => {
+        overlay.style.display = 'none';
+        // Now start the timer
+        startTimer();
+    };
+
+    // Click on overlay background closes it
+    overlay.onclick = function(e) {
+        // Only close if click is on the background, not on the inner card
+        if (e.target === overlay) {
+            closeOverlay();
+        }
+    };
+
+    // Click on the "Start Now" button closes it
+    startBtn.onclick = function(e) {
+        e.stopPropagation(); // prevent triggering overlay click
+        closeOverlay();
+    };
 }
 
 // ---- HANDLE CHOICE BUTTONS ----

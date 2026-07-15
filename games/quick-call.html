@@ -48,6 +48,22 @@
                 <button class="notification-close">&times;</button>
             </div>
         </div>
+        <!-- How to Play Overlay (appears on load) -->
+<div id="how-to-overlay" style="display: flex; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.8); backdrop-filter: blur(6px); align-items: center; justify-content: center; animation: fadeIn 0.4s ease;">
+    <div style="background: linear-gradient(145deg, #1a2e1a, #0d1f0d); padding: 30px 25px; border: 2px solid #39FF14; border-radius: 24px; max-width: 500px; width: 90%; box-shadow: 0 0 50px rgba(57,255,20,0.25); color: #f0f0f0; text-align: center; position: relative;">
+        <span style="font-size: 2.5rem;">⚡</span>
+        <h2 style="font-family: 'Mystery Quest', cursive; color: #39FF14; margin: 5px 0 10px; font-size: 2rem;">Quick Call</h2>
+        <h3 style="color: #fff; margin-bottom: 12px; font-weight: 400;">How to Play</h3>
+        <p style="color: #ccc; font-size: 1rem; line-height: 1.5;">You have <strong style="color: #39FF14;">10 seconds</strong> to make a decision!</p>
+        <ul style="list-style: none; padding: 0; text-align: left; margin: 18px 0 20px; font-size: 0.95rem; line-height: 1.6;">
+            <li style="margin-bottom: 8px;">1. Read the scenario carefully.</li>
+            <li style="margin-bottom: 8px;">2. Click <strong>Option A</strong> or <strong>B</strong> before time runs out.</li>
+            <li style="margin-bottom: 8px;">3. Then explain your choice in at least <strong>10 words</strong>. Remember U must mention the Chosen option in the explanation !!</li>
+        </ul>
+        <p style="color: #aaa; font-size: 0.9rem; margin-bottom: 16px;">Tap anywhere or click the button to begin!</p>
+        <button id="start-game-btn" style="padding: 12px 35px; background: #39FF14; border: none; border-radius: 30px; font-family: 'Rasa', sans-serif; font-weight: 700; font-size: 1.2rem; color: #0d1f0d; cursor: pointer; box-shadow: 0 0 25px rgba(57,255,20,0.3); transition: 0.2s;">Start Now 🚀</button>
+    </div>
+</div>
         <!-- LEFT COLUMN: Main Game -->
         <div class="game-main">
             <!-- Progress -->
