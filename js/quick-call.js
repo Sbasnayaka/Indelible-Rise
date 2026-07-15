@@ -309,8 +309,13 @@ function renderLevel(index) {
         window._quickInputListener = null;
     }
 
-     if (document.referrer.includes('dashboard.html') && !overlayShown) {
+    // === Overlay logic ===
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
+        // Show overlay – it will call startTimer() when dismissed
         showHowToOverlay();
+    } else {
+        // No overlay – start timer immediately
+        startTimer();
     }
 }
 

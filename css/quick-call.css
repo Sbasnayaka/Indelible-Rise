@@ -758,7 +758,7 @@
 /* How to Play Overlay */
 
 #how-to-overlay {
-    display: flex;
+    display: none;
     position: fixed;
     z-index: 2000;
     left: 0;
