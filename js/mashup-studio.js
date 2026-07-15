@@ -166,7 +166,7 @@ function renderLevel(index) {
     answerText.addEventListener('input', listener);
     window._mashupInputListener = listener;
 
-    if (!overlayShown && index === 0) {
+    if (document.referrer.includes('dashboard.html') && !overlayShown) {
         showHowToOverlay();
     }
 }
