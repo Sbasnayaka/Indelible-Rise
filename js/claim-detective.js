@@ -920,21 +920,26 @@ submitBtn.addEventListener('click', async () => {
     submitBtn.textContent = isCorrect ? '🎉 Level Complete!' : 'Try Again';
 
     setTimeout(() => {
-        if (isCorrect) {
-            // Redirect to dashboard (user will resume at next level)
-            window.location.href = '../dashboard.html';
-        } else {
-            // Reset for retry (stay on same level)
-            submitBtn.disabled = false;
-            submitBtn.textContent = 'Play Now';
-            answerText.value = '';
-            if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
-            updateDetectifyStats('');
-            feedbackDiv.style.display = 'none';
-            // re‑render same question to reset radio selection
-            renderQuestion(currentQuestionIndex);
-        }
-    }, 2500);
+    if (isCorrect) {
+        // Move to next level without page reload
+        currentQuestionIndex++;
+        renderQuestion(currentQuestionIndex);
+        document.querySelector('.game-main').scrollIntoView({ behavior: 'smooth' });
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Play Now';
+    } 
+    else {
+        // Reset for retry (stay on same level)
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Play Now';
+        answerText.value = '';
+        if (typeof startDetectifyTimer === 'function') startDetectifyTimer();
+        updateDetectifyStats('');
+        feedbackDiv.style.display = 'none';
+        // re‑render same question to reset radio selection
+        renderQuestion(currentQuestionIndex);
+    }
+}, 2500);
 });
 
 // ---- BACK BUTTON ----
