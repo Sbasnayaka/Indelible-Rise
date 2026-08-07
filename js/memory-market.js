@@ -576,6 +576,11 @@ function renderLevel(index) {
         ans3.removeEventListener('input', window._memoryInputListener);
         window._memoryInputListener = null;
     }
+
+    // === Show overlay only on level 0 when coming from dashboard ===
+    if (index === 0 && document.referrer.includes('dashboard.html') && !overlayShown) {
+        showHowToOverlay();
+    }
 }
 
 // ---- START QUIZ ----
@@ -608,9 +613,6 @@ startQuizBtn.addEventListener('click', () => {
     // Focus first input
     ans1.focus();
 
-    if (document.referrer.includes('dashboard.html') && !overlayShown) {
-        showHowToOverlay();
-    }
 });
 
 // ---- SHOW HOW-TO OVERLAY (only when coming from dashboard) ----
